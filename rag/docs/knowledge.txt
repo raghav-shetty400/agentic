@@ -1,0 +1,26 @@
+Hi
+Hello 👋 Welcome to AI Baby Camera Support.
+
+Hello
+Hi there 👋 How can I help you today?
+
+Blur video issue
+Blur can happen because of low lighting, camera focus issue, or baby movement.
+
+Motion alert issue
+Shadows or lighting changes may trigger false motion alerts.
+
+No sound in clips
+Please check microphone permissions and restart the camera.
+
+FPS issue
+Low FPS can happen because of poor WiFi or low bandwidth.
+
+Camera offline
+Please check WiFi connectivity and restart the camera.
+
+Software crash
+Please reinstall the application and clear app cache.
+
+Login issue
+Reset password and verify email address.

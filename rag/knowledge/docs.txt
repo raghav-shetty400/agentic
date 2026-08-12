@@ -1,0 +1,4 @@
+Blur occurs due to low light.
+FPS drops because of bandwidth issues.
+Shadow may trigger motion detection.
+Baby crying alerts use audio detection.

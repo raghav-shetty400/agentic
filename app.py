@@ -1,4 +1,11 @@
-from flask import Flask, render_template, request, jsonify, Response, stream_with_context
+from flask import (
+    Flask,
+    render_template,
+    request,
+    jsonify,
+    Response,
+    stream_with_context
+)
 
 from graph.builder import graph
 from llm.ollama_client import llm
@@ -33,7 +40,6 @@ def chat():
 
     message = data.get("message", "")
 
-
     result = graph.invoke({
 
         "question": message,
@@ -43,10 +49,9 @@ def chat():
 
     })
 
-
     return jsonify({
 
-        "reply": result["answer"]
+        "reply": result.get("answer", "")
 
     })
 
@@ -62,7 +67,6 @@ def search_user():
 
     username = data.get("username", "")
     issue = data.get("issue", "rollover")
-
 
     print()
     print("========================================")
@@ -86,9 +90,9 @@ def search_user():
     })
 
 
-    print("========== SEARCH USER RESULT ==========")
+    print("========== SUPPORT REPORT ==========")
     print(result)
-    print("========================================")
+    print("====================================")
 
 
     # -------------------------------------------------
@@ -108,18 +112,18 @@ def search_user():
     prompt = f"""
 You are an experienced IoT Customer Support Engineer.
 
-Rewrite the following support report into a professional,
-friendly, and easy-to-understand customer response.
+Rewrite the following support report into a short,
+friendly and professional customer response.
 
-Instructions:
+Rules:
 
 - Start directly with a greeting.
-- Do NOT write "Here's a rewritten response".
-- Do NOT write "Based on the report".
+- Do NOT say "Here's a rewritten response".
+- Do NOT say "Based on the report".
 - Do NOT invent information.
 - Use only the information provided.
-- Keep the response concise and professional.
-- If information is missing, politely ask for additional details.
+- Keep the response concise.
+- Do not ask unnecessary questions.
 
 Support Report:
 
@@ -128,12 +132,14 @@ Support Report:
 
 
     # -------------------------------------------------
-    # STREAM LLM RESPONSE
+    # STREAM LLM TO BROWSER
     # -------------------------------------------------
 
     def generate():
 
         start = time.time()
+
+        first_token = True
 
         print()
         print("========== LLM STREAM START ==========")
@@ -141,28 +147,53 @@ Support Report:
 
         for chunk in llm.stream(prompt):
 
-            if chunk.content:
+            content = chunk.content
 
-                # Show generated text in Flask terminal
+            if not content:
+                continue
+
+
+            # -----------------------------------------
+            # FIRST TOKEN
+            # -----------------------------------------
+
+            if first_token:
+
+                first_token_time = time.time() - start
 
                 print(
-                    chunk.content,
-                    end="",
-                    flush=True
+                    f"\n🔥 FIRST TOKEN: "
+                    f"{first_token_time:.2f} sec\n"
                 )
 
+                first_token = False
 
-                # Send generated text immediately
-                # to the browser
 
-                yield chunk.content
+            # -----------------------------------------
+            # TERMINAL
+            # -----------------------------------------
 
+            print(
+                content,
+                end="",
+                flush=True
+            )
+
+
+            # -----------------------------------------
+            # BROWSER
+            # -----------------------------------------
+
+            yield content
+
+
+        total_time = time.time() - start
 
         print()
 
         print(
-            f"LLM Time: "
-            f"{time.time() - start:.2f} sec"
+            f"🔥 TOTAL LLM TIME: "
+            f"{total_time:.2f} sec"
         )
 
         print("========== LLM STREAM END ==========")
@@ -172,7 +203,12 @@ Support Report:
 
         stream_with_context(generate()),
 
-        mimetype="text/plain"
+        mimetype="text/plain",
+
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no"
+        }
 
     )
 

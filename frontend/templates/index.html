@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html>
 
@@ -8,214 +7,228 @@
 
 <style>
 
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f5f5f5;
-}
-
-/* CHATBOT */
-
-.chatbot{
-
-    position:fixed;
-
-    right:20px;
-
-    bottom:20px;
-
-    width:380px;
-
-    height:700px;
-
-    background:white;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    box-shadow:0px 4px 20px rgba(0,0,0,0.2);
-
-    display:flex;
-
-    flex-direction:column;
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f5f5f5;
 }
 
 
-/* HEADER */
+/* =====================================================
+   CHATBOT
+===================================================== */
 
-.header{
+.chatbot {
 
-    background:#d6b3f7;
+    position: fixed;
 
-    color:#2e3a59;
+    right: 20px;
 
-    padding:20px;
+    bottom: 20px;
 
-    font-size:32px;
+    width: 380px;
 
-    font-weight:bold;
+    height: 700px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0px 4px 20px rgba(0,0,0,0.2);
+
+    display: flex;
+
+    flex-direction: column;
 }
 
 
-/* CHAT AREA */
+/* =====================================================
+   HEADER
+===================================================== */
 
-#chat{
+.header {
 
-    flex:1;
+    background: #d6b3f7;
 
-    overflow-y:auto;
+    color: #2e3a59;
 
-    padding:15px;
+    padding: 20px;
 
-    background:#f7f7f7;
+    font-size: 32px;
+
+    font-weight: bold;
 }
 
 
-/* MESSAGE */
+/* =====================================================
+   CHAT AREA
+===================================================== */
 
-.message{
+#chat {
 
-    margin-bottom:15px;
+    flex: 1;
 
-    display:flex;
-}
+    overflow-y: auto;
 
-.user{
+    padding: 15px;
 
-    justify-content:flex-end;
-}
-
-.bot{
-
-    justify-content:flex-start;
+    background: #f7f7f7;
 }
 
 
-.bubble{
+/* =====================================================
+   MESSAGE
+===================================================== */
 
-    max-width:75%;
+.message {
 
-    padding:14px;
+    margin-bottom: 15px;
 
-    border-radius:18px;
+    display: flex;
+}
 
-    font-size:16px;
+.user {
 
-    line-height:1.4;
+    justify-content: flex-end;
+}
 
-    white-space:pre-wrap;
+.bot {
+
+    justify-content: flex-start;
 }
 
 
-.user .bubble{
+.bubble {
 
-    background:#d8b7f7;
+    max-width: 75%;
 
-    color:#2e3a59;
+    padding: 14px;
+
+    border-radius: 18px;
+
+    font-size: 16px;
+
+    line-height: 1.4;
+
+    white-space: pre-wrap;
 }
 
 
-.bot .bubble{
+.user .bubble {
 
-    background:#ececec;
+    background: #d8b7f7;
 
-    color:#2e3a59;
+    color: #2e3a59;
 }
 
 
-/* OPTIONS */
+.bot .bubble {
 
-.options{
+    background: #ececec;
 
-    margin-top:10px;
+    color: #2e3a59;
 }
 
 
-.option-btn{
+/* =====================================================
+   OPTIONS
+===================================================== */
 
-    padding:10px 15px;
+.options {
 
-    margin:5px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:white;
-
-    border:2px solid #d6b3f7;
-
-    cursor:pointer;
-
-    font-size:15px;
+    margin-top: 10px;
 }
 
 
-.option-btn:hover{
+.option-btn {
 
-    background:#f0e0ff;
+    padding: 10px 15px;
+
+    margin: 5px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: white;
+
+    border: 2px solid #d6b3f7;
+
+    cursor: pointer;
+
+    font-size: 15px;
 }
 
 
-/* INPUT */
+.option-btn:hover {
 
-.input-area{
-
-    display:flex;
-
-    padding:15px;
-
-    border-top:1px solid #ddd;
-
-    background:white;
+    background: #f0e0ff;
 }
 
 
-#msg{
+/* =====================================================
+   INPUT
+===================================================== */
 
-    flex:1;
+.input-area {
 
-    padding:12px;
+    display: flex;
 
-    border-radius:15px;
+    padding: 15px;
 
-    border:1px solid #ccc;
+    border-top: 1px solid #ddd;
 
-    outline:none;
+    background: white;
 }
 
 
-.send-btn{
+#msg {
 
-    margin-left:10px;
+    flex: 1;
 
-    padding:12px 18px;
+    padding: 12px;
 
-    border:none;
+    border-radius: 15px;
 
-    border-radius:15px;
+    border: 1px solid #ccc;
 
-    background:#d6b3f7;
-
-    cursor:pointer;
+    outline: none;
 }
 
 
-.send-btn:hover{
+.send-btn {
 
-    background:#c89ef0;
+    margin-left: 10px;
+
+    padding: 12px 18px;
+
+    border: none;
+
+    border-radius: 15px;
+
+    background: #d6b3f7;
+
+    cursor: pointer;
 }
 
 
-/* LOADING */
+.send-btn:hover {
 
-.loading{
+    background: #c89ef0;
+}
 
-    font-style:italic;
 
-    color:#666;
+/* =====================================================
+   LOADING
+===================================================== */
 
+.loading {
+
+    font-style: italic;
+
+    color: #666;
 }
 
 </style>
@@ -229,7 +242,9 @@ body{
 <div class="chatbot">
 
 
-    <!-- HEADER -->
+    <!-- =================================================
+         HEADER
+    ================================================= -->
 
     <div class="header">
 
@@ -238,30 +253,33 @@ body{
     </div>
 
 
-    <!-- CHAT -->
+    <!-- =================================================
+         CHAT
+    ================================================= -->
 
     <div id="chat">
-
-
-        <!-- FIRST QUESTION -->
 
         <div class="message bot">
 
             <div class="bubble">
 
-                Please select issue category
+                Hello! 👋
 
+                <br><br>
+
+                How can I help you today?
+
+                <br><br>
+
+                You can type your question or select a category.
 
                 <div class="options">
-
 
                     <button
                         class="option-btn"
                         onclick="cameraIssue()"
                     >
-
                         Camera Issue
-
                     </button>
 
 
@@ -269,11 +287,8 @@ body{
                         class="option-btn"
                         onclick="softwareIssue()"
                     >
-
                         Software Issue
-
                     </button>
-
 
                 </div>
 
@@ -281,31 +296,28 @@ body{
 
         </div>
 
-
     </div>
 
 
-    <!-- INPUT -->
+    <!-- =================================================
+         INPUT
+    ================================================= -->
 
     <div class="input-area">
-
 
         <input
             type="text"
             id="msg"
-            placeholder="Reply here..."
+            placeholder="Ask anything..."
+            autocomplete="off"
         >
-
 
         <button
             class="send-btn"
             onclick="sendMessage()"
         >
-
             Send
-
         </button>
-
 
     </div>
 
@@ -321,13 +333,14 @@ body{
    GLOBAL VARIABLES
 ===================================================== */
 
-
 window.awaitingUsername = false;
 
 window.selectedIssue = "";
 
 
-const chat = document.getElementById("chat");
+
+const chat =
+    document.getElementById("chat");
 
 
 
@@ -335,26 +348,37 @@ const chat = document.getElementById("chat");
    ADD USER MESSAGE
 ===================================================== */
 
+function addUser(text) {
 
-function addUser(text){
+    const message =
+        document.createElement("div");
 
-    chat.innerHTML += `
+    message.className =
+        "message user";
 
-        <div class="message user">
 
-            <div class="bubble">
+    const bubble =
+        document.createElement("div");
 
-                ${text}
+    bubble.className =
+        "bubble";
 
-            </div>
 
-        </div>
+    bubble.textContent =
+        text;
 
-    `;
+
+    message.appendChild(
+        bubble
+    );
+
+
+    chat.appendChild(
+        message
+    );
 
 
     scrollBottom();
-
 }
 
 
@@ -363,26 +387,78 @@ function addUser(text){
    ADD BOT MESSAGE
 ===================================================== */
 
+function addBot(text) {
 
-function addBot(text){
+    const message =
+        document.createElement("div");
 
-    chat.innerHTML += `
+    message.className =
+        "message bot";
 
-        <div class="message bot">
 
-            <div class="bubble">
+    const bubble =
+        document.createElement("div");
 
-                ${text}
+    bubble.className =
+        "bubble";
 
-            </div>
 
-        </div>
+    bubble.innerHTML =
+        text.replace(
+            /\n/g,
+            "<br>"
+        );
 
-    `;
+
+    message.appendChild(
+        bubble
+    );
+
+
+    chat.appendChild(
+        message
+    );
+
+
+    scrollBottom();
+}
+
+
+
+/* =====================================================
+   CREATE STREAMING BOT MESSAGE
+===================================================== */
+
+function createStreamingMessage() {
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message bot";
+
+
+    const bubble =
+        document.createElement("div");
+
+    bubble.className =
+        "bubble";
+
+
+    message.appendChild(
+        bubble
+    );
+
+
+    chat.appendChild(
+        message
+    );
 
 
     scrollBottom();
 
+
+    return bubble;
 }
 
 
@@ -391,55 +467,63 @@ function addBot(text){
    CAMERA ISSUE
 ===================================================== */
 
+function cameraIssue() {
 
-function cameraIssue(){
-
-    addUser("Camera Issue");
-
-
-    chat.innerHTML += `
-
-        <div class="message bot">
-
-            <div class="bubble">
-
-                Please select camera issue
+    addUser(
+        "Camera Issue"
+    );
 
 
-                <div class="options">
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message bot";
 
 
-                    <button
-                        class="option-btn"
-                        onclick="sendOption('rollover')"
-                    >
+    const bubble =
+        document.createElement("div");
 
-                        Rollover event issue
-
-                    </button>
+    bubble.className =
+        "bubble";
 
 
-                    <button
-                        class="option-btn"
-                        onclick="sendOption('motion detection false alert')"
-                    >
+    bubble.innerHTML = `
 
-                        Motion Alert
+        Please select camera issue
 
-                    </button>
+        <div class="options">
 
+            <button
+                class="option-btn"
+                onclick="sendOption('rollover')"
+            >
+                Rollover event issue
+            </button>
 
-                </div>
-
-            </div>
+            <button
+                class="option-btn"
+                onclick="sendOption('motion detection false alert')"
+            >
+                Motion Alert
+            </button>
 
         </div>
 
     `;
 
 
-    scrollBottom();
+    message.appendChild(
+        bubble
+    );
 
+
+    chat.appendChild(
+        message
+    );
+
+
+    scrollBottom();
 }
 
 
@@ -448,55 +532,63 @@ function cameraIssue(){
    SOFTWARE ISSUE
 ===================================================== */
 
+function softwareIssue() {
 
-function softwareIssue(){
-
-    addUser("Software Issue");
-
-
-    chat.innerHTML += `
-
-        <div class="message bot">
-
-            <div class="bubble">
-
-                Please select software issue
+    addUser(
+        "Software Issue"
+    );
 
 
-                <div class="options">
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message bot";
 
 
-                    <button
-                        class="option-btn"
-                        onclick="sendOption('App crashing')"
-                    >
+    const bubble =
+        document.createElement("div");
 
-                        App Crash
-
-                    </button>
+    bubble.className =
+        "bubble";
 
 
-                    <button
-                        class="option-btn"
-                        onclick="sendOption('Login issue')"
-                    >
+    bubble.innerHTML = `
 
-                        Login Issue
+        Please select software issue
 
-                    </button>
+        <div class="options">
 
+            <button
+                class="option-btn"
+                onclick="sendOption('App crashing')"
+            >
+                App Crash
+            </button>
 
-                </div>
-
-            </div>
+            <button
+                class="option-btn"
+                onclick="sendOption('Login issue')"
+            >
+                Login Issue
+            </button>
 
         </div>
 
     `;
 
 
-    scrollBottom();
+    message.appendChild(
+        bubble
+    );
 
+
+    chat.appendChild(
+        message
+    );
+
+
+    scrollBottom();
 }
 
 
@@ -505,119 +597,144 @@ function softwareIssue(){
    OPTION CLICK
 ===================================================== */
 
-
-async function sendOption(text){
+async function sendOption(text) {
 
     addUser(text);
 
 
-    window.selectedIssue = text;
+    window.selectedIssue =
+        text;
 
 
-    /* ---------------------------------------------
+    /* =================================================
        ROLLOVER
-    --------------------------------------------- */
+    ================================================= */
 
-
-    if(text === "rollover"){
+    if (text === "rollover") {
 
         addBot(`
+            <b>Recommended Solution</b>
 
-            <b>Recommended Solution</b><br><br>
+            <br><br>
 
-            1. Check for camera angle<br>
+            1. Check camera angle
 
-            2. Camera height<br>
+            <br>
 
-            3. Check internet connection<br>
+            2. Check camera height
 
-            4. Restart the camera<br><br>
+            <br>
 
-            Can you please share your username?
+            3. Check internet connection
 
+            <br>
+
+            4. Restart the camera
+
+            <br><br>
+
+            If the issue continues, please enter your
+            username or email address.
         `);
 
 
-        window.awaitingUsername = true;
+        window.awaitingUsername =
+            true;
+
 
         return;
-
     }
 
 
-    /* ---------------------------------------------
+    /* =================================================
        MOTION ALERT
-    --------------------------------------------- */
+    ================================================= */
 
-
-    if(text === "motion detection false alert"){
+    if (
+        text ===
+        "motion detection false alert"
+    ) {
 
         addBot(`
+            <b>Recommended Solution</b>
 
-            <b>Recommended Solution</b><br><br>
+            <br><br>
 
-            1. Reduce motion sensitivity<br>
+            1. Reduce motion sensitivity
 
-            2. Avoid fan/light movement<br>
+            <br>
 
-            3. Update firmware<br>
+            2. Avoid fan/light movement
+
+            <br>
+
+            3. Update firmware
+
+            <br>
 
             4. Check notification settings
-
         `);
 
-        return;
 
+        return;
     }
 
 
-    /* ---------------------------------------------
+    /* =================================================
        APP CRASH
-    --------------------------------------------- */
+    ================================================= */
 
-
-    if(text === "App crashing"){
+    if (text === "App crashing") {
 
         addBot(`
+            <b>Recommended Solution</b>
 
-            <b>Recommended Solution</b><br><br>
+            <br><br>
 
-            1. Update the app<br>
+            1. Update the app
 
-            2. Clear cache<br>
+            <br>
 
-            3. Restart mobile<br>
+            2. Clear cache
+
+            <br>
+
+            3. Restart mobile
+
+            <br>
 
             4. Reinstall app
-
         `);
 
-        return;
 
+        return;
     }
 
 
-    /* ---------------------------------------------
+    /* =================================================
        LOGIN
-    --------------------------------------------- */
+    ================================================= */
 
-
-    if(text === "Login issue"){
+    if (text === "Login issue") {
 
         addBot(`
+            <b>Recommended Solution</b>
 
-            <b>Recommended Solution</b><br><br>
+            <br><br>
 
-            1. Reset password<br>
+            1. Reset password
 
-            2. Verify internet connection<br>
+            <br>
+
+            2. Verify internet connection
+
+            <br>
 
             3. Verify email/mobile number
-
         `);
 
-        return;
 
+        return;
     }
 
 }
@@ -628,60 +745,91 @@ async function sendOption(text){
    SEND MESSAGE
 ===================================================== */
 
+async function sendMessage() {
 
-async function sendMessage(){
-
-    const input = document.getElementById("msg");
-
-    const text = input.value.trim();
+    const input =
+        document.getElementById("msg");
 
 
-    if(text === ""){
+    const text =
+        input.value.trim();
+
+
+    if (!text) {
 
         return;
 
     }
 
 
-    /* Show user message */
+    /* =================================================
+       SHOW USER MESSAGE
+    ================================================= */
 
     addUser(text);
 
-
-    /* Clear input */
 
     input.value = "";
 
 
     /* =================================================
-       USERNAME SEARCH
+       USERNAME / EMAIL FLOW
     ================================================= */
 
+    if (
+        window.awaitingUsername
+    ) {
 
-    if(window.awaitingUsername){
+        await searchUser(
+            text
+        );
 
-        try{
+        return;
+    }
 
 
-            const usernameResponse = await fetch(
+    /* =================================================
+       NORMAL MESSAGE
+    ================================================= */
+
+    await normalChat(
+        text
+    );
+
+}
+
+
+
+/* =====================================================
+   SEARCH USER
+===================================================== */
+
+async function searchUser(
+    username
+) {
+
+    try {
+
+        const usernameResponse =
+            await fetch(
                 "/search-user",
                 {
 
-                    method:"POST",
+                    method: "POST",
 
-                    headers:{
-
+                    headers: {
                         "Content-Type":
-                        "application/json"
-
+                            "application/json"
                     },
 
-                    body:JSON.stringify({
+                    body: JSON.stringify({
 
-                        username:text,
+                        username:
+                            username,
 
                         issue:
-                        window.selectedIssue
+                            window.selectedIssue ||
+                            "support"
 
                     })
 
@@ -689,142 +837,117 @@ async function sendMessage(){
             );
 
 
-            /* -----------------------------------------
-               CHECK RESPONSE
-            ----------------------------------------- */
+        /* =================================================
+           CHECK RESPONSE
+        ================================================= */
 
+        if (
+            !usernameResponse.ok
+        ) {
 
-            if(!usernameResponse.ok){
-
-                throw new Error(
-                    "Server returned an error"
-                );
-
-            }
-
-
-            /* -----------------------------------------
-               CREATE EMPTY BOT MESSAGE
-            ----------------------------------------- */
-
-
-            const messageDiv =
-                document.createElement("div");
-
-
-            messageDiv.className =
-                "message bot";
-
-
-            const bubble =
-                document.createElement("div");
-
-
-            bubble.className =
-                "bubble";
-
-
-            messageDiv.appendChild(bubble);
-
-
-            chat.appendChild(messageDiv);
-
-
-            scrollBottom();
-
-
-            /* -----------------------------------------
-               STREAM RESPONSE
-            ----------------------------------------- */
-
-
-            const reader =
-                usernameResponse.body.getReader();
-
-
-            const decoder =
-                new TextDecoder();
-
-
-            let botText = "";
-
-
-            while(true){
-
-                const {
-                    value,
-                    done
-                } = await reader.read();
-
-
-                if(done){
-
-                    break;
-
-                }
-
-
-                const chunk =
-                    decoder.decode(
-                        value,
-                        {
-                            stream:true
-                        }
-                    );
-
-
-                botText += chunk;
-
-
-                /* -------------------------------------
-                   Display immediately
-                ------------------------------------- */
-
-
-                bubble.innerHTML =
-                    botText.replace(
-                        /\n/g,
-                        "<br>"
-                    );
-
-
-                scrollBottom();
-
-            }
-
-
-            /* -----------------------------------------
-               STREAM FINISHED
-            ----------------------------------------- */
-
-
-            window.awaitingUsername = false;
-
-
-        }
-        catch(error){
-
-            console.error(error);
-
-
-            addBot(
-                "Sorry, there was a server error."
+            throw new Error(
+                "Server returned " +
+                usernameResponse.status
             );
 
         }
 
 
-        return;
+        /* =================================================
+           CREATE STREAM MESSAGE
+        ================================================= */
+
+        const bubble =
+            createStreamingMessage();
+
+
+        /* =================================================
+           READ STREAM
+        ================================================= */
+
+        const reader =
+            usernameResponse
+                .body
+                .getReader();
+
+
+        const decoder =
+            new TextDecoder();
+
+
+        let botText = "";
+
+
+        while (true) {
+
+            const {
+                value,
+                done
+            } =
+                await reader.read();
+
+
+            if (done) {
+
+                break;
+
+            }
+
+
+            const chunk =
+                decoder.decode(
+                    value,
+                    {
+                        stream: true
+                    }
+                );
+
+
+            botText +=
+                chunk;
+
+
+            /* =================================================
+               DISPLAY CHUNK IMMEDIATELY
+            ================================================= */
+
+            bubble.innerHTML =
+                botText.replace(
+                    /\n/g,
+                    "<br>"
+                );
+
+
+            scrollBottom();
+
+        }
+
+
+        /* =================================================
+           COMPLETE
+        ================================================= */
+
+        window.awaitingUsername =
+            false;
+
+        window.selectedIssue =
+            "";
+
 
     }
+    catch (error) {
+
+        console.error(
+            "Search user error:",
+            error
+        );
 
 
-    /* =================================================
-       NORMAL CHAT
-    ================================================= */
+        addBot(
+            "Sorry, I couldn't verify the account right now."
+        );
 
-
-    await normalChat(text);
+    }
 
 }
 
@@ -834,59 +957,76 @@ async function sendMessage(){
    NORMAL CHAT
 ===================================================== */
 
+async function normalChat(
+    message
+) {
 
-async function normalChat(message){
+    try {
 
-    try{
+        const chatResponse =
+            await fetch(
+                "/chat",
+                {
 
+                    method: "POST",
 
-        const chatResponse = await fetch(
-            "/chat",
-            {
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                method:"POST",
+                    body: JSON.stringify({
 
-                headers:{
+                        message:
+                            message
 
-                    "Content-Type":
-                    "application/json"
+                    })
 
-                },
-
-                body:JSON.stringify({
-
-                    message:message
-
-                })
-
-            }
-        );
+                }
+            );
 
 
-        if(!chatResponse.ok){
+        /* =================================================
+           CHECK RESPONSE
+        ================================================= */
+
+        if (
+            !chatResponse.ok
+        ) {
 
             throw new Error(
-                "Server error"
+                "Server returned " +
+                chatResponse.status
             );
 
         }
 
 
+        /* =================================================
+           CURRENT /CHAT RETURNS JSON
+        ================================================= */
+
         const data =
             await chatResponse.json();
 
 
-        addBot(data.reply);
+        addBot(
+            data.reply ||
+            "I couldn't generate a response."
+        );
 
 
     }
-    catch(error){
+    catch (error) {
 
-        console.error(error);
+        console.error(
+            "Chat error:",
+            error
+        );
 
 
         addBot(
-            "Sorry, there was a server error."
+            "Sorry, I couldn't process your message."
         );
 
     }
@@ -899,21 +1039,24 @@ async function normalChat(message){
    ENTER KEY
 ===================================================== */
 
-
 document
-.getElementById("msg")
-.addEventListener(
-    "keypress",
-    function(event){
+    .getElementById("msg")
+    .addEventListener(
+        "keypress",
+        function(event) {
 
-        if(event.key === "Enter"){
+            if (
+                event.key === "Enter"
+            ) {
 
-            sendMessage();
+                event.preventDefault();
+
+                sendMessage();
+
+            }
 
         }
-
-    }
-);
+    );
 
 
 
@@ -921,8 +1064,7 @@ document
    AUTO SCROLL
 ===================================================== */
 
-
-function scrollBottom(){
+function scrollBottom() {
 
     chat.scrollTop =
         chat.scrollHeight;
@@ -935,4 +1077,3 @@ function scrollBottom(){
 </body>
 
 </html>
-```

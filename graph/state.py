@@ -1,21 +1,42 @@
 from typing import TypedDict
 
-class AgentState(TypedDict):
 
-    question:str
+class AgentState(TypedDict, total=False):
 
-    username:str
+    # ---------------- USER QUESTION ----------------
 
-    user:dict
+    question: str
 
-    device:dict
+    # ---------------- USER DETAILS ----------------
 
-    subscription:dict
+    username: str
 
-    settings:list
+    user: dict
 
-    events:list
+    # ---------------- DEVICE DETAILS ----------------
 
-    answer:str
+    device: dict
 
-    route:str
+    # ---------------- SUBSCRIPTION ----------------
+
+    subscription: dict
+
+    # ---------------- DEVICE SETTINGS ----------------
+
+    settings: list
+
+    # ---------------- EVENTS ----------------
+
+    events: list
+
+    # ---------------- RESPONSE ----------------
+
+    answer: str
+
+    # ---------------- ROUTING ----------------
+
+    route: str
+
+    # ---------------- INTENT ----------------
+
+    intent: str

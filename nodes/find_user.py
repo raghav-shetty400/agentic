@@ -1,16 +1,36 @@
 from tools.user_tool import get_user
 
+
 def find_user(state):
 
-    username = state["username"]
+    print(">>> find_user")
+
+    username = state.get("username", "").strip()
+
+    if not username:
+
+        return {
+            **state,
+            "answer": "Please provide your username or email address."
+        }
 
     user = get_user(username)
 
     if user is None:
+
         return {
-            "answer": "Username not found."
+            **state,
+            "user": {},
+            "answer": "Username or email address not found."
         }
 
+    print(
+        "User found:",
+        user.get("name")
+    )
+
     return {
-        "user": user
+        **state,
+        "user": user,
+        "answer": ""
     }

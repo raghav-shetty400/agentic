@@ -3,20 +3,22 @@ from flask import (
     render_template,
     request,
     jsonify,
-    Response,
-    stream_with_context
+    session
 )
 
 from graph.builder import graph
-from llm.ollama_client import llm
 
-import time
 
+# =====================================================
+# FLASK APP
+# =====================================================
 
 app = Flask(
     __name__,
     template_folder="frontend/templates"
 )
+
+app.secret_key = "agentic-chatbot-secret-key"
 
 
 # =====================================================
@@ -25,6 +27,9 @@ app = Flask(
 
 @app.route("/")
 def home():
+
+    # Start fresh conversation
+    session.clear()
 
     return render_template("index.html")
 
@@ -36,181 +41,394 @@ def home():
 @app.route("/chat", methods=["POST"])
 def chat():
 
-    data = request.get_json()
+    try:
 
-    message = data.get("message", "")
+        data = request.get_json() or {}
 
-    result = graph.invoke({
-
-        "question": message,
-        "username": "",
-        "answer": "",
-        "route": ""
-
-    })
-
-    return jsonify({
-
-        "reply": result.get("answer", "")
-
-    })
+        message = data.get(
+            "message",
+            ""
+        ).strip()
 
 
-# =====================================================
-# SEARCH USER
-# =====================================================
-
-@app.route("/search-user", methods=["POST"])
-def search_user():
-
-    data = request.get_json()
-
-    username = data.get("username", "")
-    issue = data.get("issue", "rollover")
-
-    print()
-    print("========================================")
-    print("SEARCH USER")
-    print("Username :", username)
-    print("Issue    :", issue)
-    print("========================================")
-
-
-    # -------------------------------------------------
-    # RUN LANGGRAPH
-    # -------------------------------------------------
-
-    result = graph.invoke({
-
-        "question": issue,
-        "username": username,
-        "answer": "",
-        "route": "support"
-
-    })
-
-
-    print("========== SUPPORT REPORT ==========")
-    print(result)
-    print("====================================")
-
-
-    # -------------------------------------------------
-    # GET SUPPORT REPORT
-    # -------------------------------------------------
-
-    report = result.get(
-        "answer",
-        "Unable to generate support report."
-    )
-
-
-    # -------------------------------------------------
-    # LLM PROMPT
-    # -------------------------------------------------
-
-    prompt = f"""
-You are an experienced IoT Customer Support Engineer.
-
-Rewrite the following support report into a short,
-friendly and professional customer response.
-
-Rules:
-
-- Start directly with a greeting.
-- Do NOT say "Here's a rewritten response".
-- Do NOT say "Based on the report".
-- Do NOT invent information.
-- Use only the information provided.
-- Keep the response concise.
-- Do not ask unnecessary questions.
-
-Support Report:
-
-{report}
-"""
-
-
-    # -------------------------------------------------
-    # STREAM LLM TO BROWSER
-    # -------------------------------------------------
-
-    def generate():
-
-        start = time.time()
-
-        first_token = True
+        # =================================================
+        # DEBUG - EVERY REQUEST
+        # =================================================
 
         print()
-        print("========== LLM STREAM START ==========")
+        print("========================================")
+        print("CHAT REQUEST")
+        print("Message :", message)
+        print("Waiting :", session.get(
+            "waiting_for_username",
+            False
+        ))
+        print("Pending :", session.get(
+            "pending_issue",
+            ""
+        ))
+        print("========================================")
 
 
-        for chunk in llm.stream(prompt):
+        # =================================================
+        # EMPTY MESSAGE
+        # =================================================
 
-            content = chunk.content
+        if not message:
 
-            if not content:
-                continue
-
-
-            # -----------------------------------------
-            # FIRST TOKEN
-            # -----------------------------------------
-
-            if first_token:
-
-                first_token_time = time.time() - start
-
-                print(
-                    f"\n🔥 FIRST TOKEN: "
-                    f"{first_token_time:.2f} sec\n"
-                )
-
-                first_token = False
+            return jsonify({
+                "reply": "Please enter a message."
+            })
 
 
-            # -----------------------------------------
-            # TERMINAL
-            # -----------------------------------------
+        # =================================================
+        # STEP 1
+        # USER IS PROVIDING USERNAME / EMAIL
+        # =================================================
 
-            print(
-                content,
-                end="",
-                flush=True
+        if session.get(
+            "waiting_for_username",
+            False
+        ):
+
+            username = message
+
+            pending_issue = session.get(
+                "pending_issue",
+                ""
             )
 
 
-            # -----------------------------------------
-            # BROWSER
-            # -----------------------------------------
+            print()
+            print("========== USERNAME FLOW ==========")
+            print("Username :", username)
+            print("Issue    :", pending_issue)
+            print("===================================")
 
-            yield content
+
+            # =================================================
+            # CHECK PENDING ISSUE
+            # =================================================
+
+            if not pending_issue:
+
+                print()
+                print("ERROR: pending_issue is EMPTY")
+                print("Cannot continue support flow.")
+
+                session.clear()
+
+                return jsonify({
+
+                    "reply":
+                    "I lost the issue information. "
+                    "Please select the issue again."
+
+                }), 400
 
 
-        total_time = time.time() - start
+            # =================================================
+            # CLEAR WAITING FLAG
+            # =================================================
+
+            session["waiting_for_username"] = False
+
+
+            # =================================================
+            # CALL SUPPORT GRAPH
+            # =================================================
+
+            print()
+            print("========== CALLING SUPPORT GRAPH ==========")
+
+            print("Question :", pending_issue)
+            print("Username :", username)
+            print("Route    : support")
+            print("Intent   :", pending_issue)
+
+
+            result = graph.invoke({
+
+                "question": pending_issue,
+
+                "username": username,
+
+                "answer": "",
+
+                "route": "support",
+
+                "intent": pending_issue
+
+            })
+
+
+            print()
+            print("========== SUPPORT GRAPH RESULT ==========")
+            print(result)
+            print("===========================================")
+
+
+            # =================================================
+            # GET ANSWER
+            # =================================================
+
+            answer = result.get(
+                "answer",
+                ""
+            )
+
+
+            # =================================================
+            # CLEAR SESSION
+            # =================================================
+
+            session.pop(
+                "pending_issue",
+                None
+            )
+
+
+            session.pop(
+                "waiting_for_username",
+                None
+            )
+
+
+            # =================================================
+            # EMPTY ANSWER
+            # =================================================
+
+            if not answer:
+
+                print()
+                print(
+                    "WARNING: Support graph returned "
+                    "EMPTY answer"
+                )
+
+                return jsonify({
+
+                    "reply":
+                    "I couldn't generate a support response."
+
+                })
+
+
+            # =================================================
+            # SUCCESS
+            # =================================================
+
+            print()
+            print("========== SUPPORT SUCCESS ==========")
+            print("Answer :", answer)
+            print("======================================")
+
+
+            return jsonify({
+
+                "reply": answer
+
+            })
+
+
+        # =================================================
+        # STEP 2
+        # NORMAL CHAT / FIRST USER MESSAGE
+        # =================================================
 
         print()
+        print("========== NORMAL CHAT ==========")
+        print("Question :", message)
+        print("=================================")
 
-        print(
-            f"🔥 TOTAL LLM TIME: "
-            f"{total_time:.2f} sec"
+
+        # =================================================
+        # CALL GRAPH
+        # =================================================
+
+        result = graph.invoke({
+
+            "question": message,
+
+            "username": "",
+
+            "answer": "",
+
+            "route": "",
+
+            "intent": ""
+
+        })
+
+
+        print()
+        print("========== GRAPH RESULT ==========")
+        print(result)
+        print("==================================")
+
+
+        # =================================================
+        # READ GRAPH RESULT
+        # =================================================
+
+        route = result.get(
+            "route",
+            "rag"
         )
 
-        print("========== LLM STREAM END ==========")
+
+        intent = result.get(
+            "intent",
+            ""
+        )
 
 
-    return Response(
+        answer = result.get(
+            "answer",
+            ""
+        )
 
-        stream_with_context(generate()),
 
-        mimetype="text/plain",
+        print()
+        print("========== ROUTING RESULT ==========")
+        print("Route  :", route)
+        print("Intent :", intent)
+        print("Answer :", answer)
+        print("====================================")
 
-        headers={
-            "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no"
-        }
 
-    )
+        # =================================================
+        # SUPPORT ISSUE
+        # =================================================
+
+        if route == "support":
+
+            print()
+            print(">>> SUPPORT ISSUE DETECTED")
+
+
+            # =================================================
+            # IMPORTANT
+            #
+            # If router does not return intent,
+            # use the ORIGINAL USER MESSAGE.
+            # =================================================
+
+            pending_issue = intent.strip()
+
+
+            if not pending_issue:
+
+                pending_issue = message
+
+
+            print()
+            print("========== SUPPORT ISSUE ==========")
+            print("Original message :", message)
+            print("Graph intent     :", intent)
+            print("Pending issue    :", pending_issue)
+            print("===================================")
+
+
+            # =================================================
+            # SAVE SESSION
+            # =================================================
+
+            session["pending_issue"] = pending_issue
+
+            session["waiting_for_username"] = True
+
+
+            print()
+            print("========== SESSION ==========")
+            print(
+                "Waiting :",
+                session.get(
+                    "waiting_for_username"
+                )
+            )
+            print(
+                "Pending :",
+                session.get(
+                    "pending_issue"
+                )
+            )
+            print("=============================")
+
+
+            # =================================================
+            # ASK USERNAME / EMAIL
+            # =================================================
+
+            return jsonify({
+
+                "reply":
+                "Sure! I can help you investigate "
+                f"the {pending_issue} issue.\n\n"
+                "Before I proceed, please enter "
+                "your username or email address."
+
+            })
+
+
+        # =================================================
+        # GENERAL / RAG CHAT
+        # =================================================
+
+        print()
+        print(">>> GENERAL CHAT")
+
+
+        # =================================================
+        # IF GRAPH ALREADY GENERATED ANSWER
+        # =================================================
+
+        if answer:
+
+            return jsonify({
+
+                "reply": answer
+
+            })
+
+
+        # =================================================
+        # NO ANSWER
+        # =================================================
+
+        print()
+        print("WARNING: General graph returned empty answer")
+
+
+        return jsonify({
+
+            "reply":
+            "How can I help you today?"
+
+        })
+
+
+    # =====================================================
+    # ERROR HANDLING
+    # =====================================================
+
+    except Exception as e:
+
+        print()
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("CHAT ERROR")
+        print("TYPE :", type(e).__name__)
+        print("ERROR:", str(e))
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
+
+        return jsonify({
+
+            "reply":
+            "Sorry, I couldn't process your "
+            "request right now."
+
+        }), 500
 
 
 # =====================================================

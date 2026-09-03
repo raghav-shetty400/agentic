@@ -5,14 +5,41 @@ def router(state):
         ""
     ).lower().strip()
 
+    route_in = state.get(
+        "route",
+        ""
+    )
+
+    intent_in = state.get(
+        "intent",
+        ""
+    )
 
     print()
     print("========== ROUTER ==========")
     print("Question :", question)
     print("Username :", state.get("username", ""))
-    print("Route IN :", state.get("route", ""))
-    print("Intent IN:", state.get("intent", ""))
+    print("Route IN :", route_in)
+    print("Intent IN:", intent_in)
     print("============================")
+
+
+    # =====================================================
+    # ALREADY SUPPORT
+    # =====================================================
+
+    if route_in == "support":
+
+        print()
+        print(">>> EXISTING SUPPORT FLOW")
+        print(">>> Route  : support")
+        print(">>> Intent :", intent_in or question)
+
+        return {
+            **state,
+            "route": "support",
+            "intent": intent_in or question
+        }
 
 
     # =====================================================
@@ -75,12 +102,9 @@ def router(state):
             print(">>> Route    : support")
             print(">>> Intent   :", word)
 
-
             return {
                 **state,
-
                 "route": "support",
-
                 "intent": word
             }
 
@@ -93,11 +117,8 @@ def router(state):
     print(">>> GENERAL CHAT")
     print(">>> Route : rag")
 
-
     return {
         **state,
-
         "route": "rag",
-
         "intent": "general"
     }

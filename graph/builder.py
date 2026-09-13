@@ -9,6 +9,9 @@ from nodes.support_agent import support_agent
 from nodes.response import response
 from nodes.log_node import log_node
 
+# RAG
+from rag.rag_retrieval import rag_retrieval
+
 
 # =====================================================
 # CREATE GRAPH
@@ -38,6 +41,15 @@ workflow.add_node(
     log_node
 )
 
+# =====================================================
+# RAG NODE
+# =====================================================
+
+workflow.add_node(
+    "rag_retrieval",
+    rag_retrieval
+)
+
 workflow.add_node(
     "response",
     response
@@ -63,8 +75,19 @@ workflow.add_conditional_edges(
     route_question,
     {
         "support": "ask_username",
-        "rag": "response"
+        "rag": "rag_retrieval",
+        "general": "response"
     }
+)
+
+
+# =====================================================
+# RAG FLOW
+# =====================================================
+
+workflow.add_edge(
+    "rag_retrieval",
+    "response"
 )
 
 

@@ -1,37 +1,37 @@
-from langchain_community.vectorstores import FAISS
-
-from langchain_community.embeddings import HuggingFaceEmbeddings
-
-
-embeddings = HuggingFaceEmbeddings(
-
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
-
-db = FAISS.load_local(
-
-    "faiss_db",
-
-    embeddings,
-
-    allow_dangerous_deserialization=True
-)
+from rag.embeddings import get_embedding
+from rag.vector_store import search
 
 
-def search_knowledge(query):
+def retrieve_documents(query, top_k=4):
 
-    query = query.lower()
+    print()
+    print("========== RAG RETRIEVER ==========")
+    print("FILE     : rag/retriever.py")
+    print("FUNCTION : retrieve_documents()")
+    print("QUERY    :", query)
+    print("TOP K    :", top_k)
 
-    # GREETING HANDLING
+    query_embedding = get_embedding(query)
 
-    if query in ["hi", "hello", "hey"]:
+    results = search(
+        query_embedding=query_embedding,
+        top_k=top_k
+    )
 
-        return "Hello 👋 Welcome to AI Baby Camera Support"
+    documents = results.get("documents", [[]])[0]
 
-    results = db.similarity_search(query, k=1)
+    metadatas = results.get("metadatas", [[]])[0]
 
-    if results:
+    print()
+    print("RETRIEVED DOCUMENTS :", len(documents))
 
-        return results[0].page_content
+    for i, document in enumerate(documents):
 
-    return "Sorry, I could not understand."
+        print()
+        print(f"--- RESULT {i + 1} ---")
+        print("SOURCE :", metadatas[i] if i < len(metadatas) else "")
+        print("TEXT   :", document[:300])
+
+    print("====================================")
+
+    return documents

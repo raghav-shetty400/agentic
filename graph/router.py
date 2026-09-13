@@ -43,47 +43,119 @@ def router(state):
 
 
     # =====================================================
-    # SUPPORT KEYWORDS
+    # SUPPORT
+    #
+    # Only customer-specific questions.
+    # These require MySQL / user / device information.
     # =====================================================
 
-    support_words = [
+    support_patterns = [
 
-        "rollover",
-        "roll over",
+        # -------------------------------------------------
+        # MY DEVICE / CAMERA
+        # -------------------------------------------------
 
-        "flip",
-        "cry",
-        "sleep",
+        "check my device",
+        "check my camera",
+        "check my sensor",
 
-        "motion",
-        "motion alert",
-        "false alert",
+        "my device status",
+        "my camera status",
+        "my sensor status",
 
-        "firmware",
+        "is my device online",
+        "is my camera online",
+        "is my sensor online",
 
-        "subscription",
-        "plan",
+        "is my device offline",
+        "is my camera offline",
 
-        "camera",
-        "camera issue",
+        "check my device status",
+        "check my camera status",
 
-        "offline",
+        # -------------------------------------------------
+        # ACCOUNT
+        # -------------------------------------------------
 
-        "device",
-        "device issue",
+        "check my account",
+        "my account status",
 
-        "sensor",
-        "sensors",
+        # -------------------------------------------------
+        # SUBSCRIPTION
+        # -------------------------------------------------
 
-        "notification",
-        "notifications",
+        "check my subscription",
+        "my subscription",
+        "my subscription status",
 
-        "battery",
+        "check my plan",
+        "my plan",
 
-        "registration",
+        # -------------------------------------------------
+        # FIRMWARE
+        # -------------------------------------------------
 
-        "installation",
-        "setup"
+        "check my firmware",
+        "my firmware",
+        "what is my firmware",
+
+        # -------------------------------------------------
+        # SETTINGS
+        # -------------------------------------------------
+
+        "check my settings",
+        "my settings",
+
+        # -------------------------------------------------
+        # EVENTS
+        # -------------------------------------------------
+
+        "check my event",
+        "check my events",
+
+        "my latest event",
+        "my latest events",
+
+        "latest event on my device",
+        "latest event on my camera",
+
+        # -------------------------------------------------
+        # ROLLOVER
+        # -------------------------------------------------
+
+        "did my rollover happen",
+        "did rollover happen",
+
+        "check my rollover",
+
+        # NEW - customer-specific rollover questions
+        "my rollover",
+        "my roll over",
+
+        "why is my rollover not working",
+        "why is my roll over not working",
+
+        "why isn't my rollover working",
+        "why isn't my roll over working",
+
+        "why was my rollover not working",
+        "why was my roll over not working",
+
+        "why didn't my rollover happen",
+        "why did my rollover not happen",
+
+        "why did my rollover fail",
+
+        "my rollover event",
+        "rollover event on my device",
+
+        # -------------------------------------------------
+        # CUSTOMER-SPECIFIC STATUS
+        # -------------------------------------------------
+
+        "check my status",
+        "check my device status",
+        "check my camera status"
 
     ]
 
@@ -92,33 +164,179 @@ def router(state):
     # DETECT SUPPORT
     # =====================================================
 
-    for word in support_words:
+    for pattern in support_patterns:
 
-        if word in question:
+        if pattern in question:
 
             print()
             print(">>> SUPPORT DETECTED")
-            print(">>> Keyword :", word)
-            print(">>> Route    : support")
-            print(">>> Intent   :", word)
+            print(">>> Pattern :", pattern)
+            print(">>> Route   : support")
+            print(">>> Intent  :", pattern)
 
             return {
                 **state,
                 "route": "support",
-                "intent": word
+                "intent": pattern
             }
 
 
     # =====================================================
-    # GENERAL
+    # RAG
+    #
+    # Generic IoT knowledge, documentation,
+    # troubleshooting and how-to questions.
+    # =====================================================
+
+    rag_patterns = [
+
+        # -------------------------------------------------
+        # CAMERA
+        # -------------------------------------------------
+
+        "camera",
+        "camera issue",
+        "camera problem",
+        "camera not working",
+        "camera stopped working",
+        "camera troubleshooting",
+
+        # -------------------------------------------------
+        # MOTION
+        # -------------------------------------------------
+
+        "motion",
+        "motion detection",
+        "motion alert",
+        "false alert",
+        "false motion",
+        "motion issue",
+        "motion problem",
+
+        # -------------------------------------------------
+        # ROLLOVER
+        # -------------------------------------------------
+
+        "rollover",
+        "roll over",
+
+        # -------------------------------------------------
+        # FIRMWARE
+        # -------------------------------------------------
+
+        "firmware",
+        "firmware update",
+        "update firmware",
+
+        # -------------------------------------------------
+        # SUBSCRIPTION
+        # -------------------------------------------------
+
+        "subscription",
+        "subscription plan",
+        "subscription plans",
+
+        # -------------------------------------------------
+        # DEVICE
+        # -------------------------------------------------
+
+        "device setup",
+        "device installation",
+        "device issue",
+        "device problem",
+
+        # -------------------------------------------------
+        # SENSOR
+        # -------------------------------------------------
+
+        "sensor",
+        "sensors",
+        "sensor issue",
+        "sensor problem",
+
+        # -------------------------------------------------
+        # NOTIFICATION
+        # -------------------------------------------------
+
+        "notification",
+        "notifications",
+        "notification issue",
+
+        # -------------------------------------------------
+        # BATTERY
+        # -------------------------------------------------
+
+        "battery",
+        "battery issue",
+        "battery problem",
+
+        # -------------------------------------------------
+        # SETUP / INSTALLATION
+        # -------------------------------------------------
+
+        "installation",
+        "setup",
+
+        # -------------------------------------------------
+        # GENERIC KNOWLEDGE / HOW-TO
+        # -------------------------------------------------
+
+        "how do i",
+        "how do you",
+        "how to",
+
+        "what is",
+        "what are",
+        "what does",
+        "what does it mean",
+
+        "how does",
+        "how can i",
+
+        "explain",
+        "guide",
+        "instructions",
+        "steps",
+
+        "troubleshoot",
+        "troubleshooting",
+
+        "help me understand"
+
+    ]
+
+
+    # =====================================================
+    # DETECT RAG
+    # =====================================================
+
+    for pattern in rag_patterns:
+
+        if pattern in question:
+
+            print()
+            print(">>> RAG DETECTED")
+            print(">>> Pattern :", pattern)
+            print(">>> Route   : rag")
+            print(">>> Intent  :", pattern)
+
+            return {
+                **state,
+                "route": "rag",
+                "intent": pattern
+            }
+
+
+    # =====================================================
+    # GENERAL CHAT
     # =====================================================
 
     print()
     print(">>> GENERAL CHAT")
-    print(">>> Route : rag")
+    print(">>> Route : general")
 
     return {
         **state,
-        "route": "rag",
+        "route": "general",
         "intent": "general"
     }

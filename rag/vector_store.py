@@ -1,41 +1,60 @@
-from langchain_community.vectorstores import FAISS
-
-from langchain_community.embeddings import HuggingFaceEmbeddings
-
-from langchain_text_splitters import CharacterTextSplitter
-
-from langchain_core.documents import Document
+import chromadb
 
 
-def create_vector_db():
+CHROMA_PATH = "./rag/vectorstore"
 
-    with open("rag/docs/knowledge.txt", "r", encoding="utf-8") as f:
+COLLECTION_NAME = "iot_knowledge"
 
-        text = f.read()
 
-    splitter = CharacterTextSplitter(
+client = chromadb.PersistentClient(
+    path=CHROMA_PATH
+)
 
-        chunk_size=200,
 
-        chunk_overlap=20
+collection = client.get_or_create_collection(
+    name=COLLECTION_NAME
+)
+
+
+def add_documents(documents, embeddings, ids, metadatas=None):
+
+    print()
+    print("========== VECTOR STORE ==========")
+    print("FILE     : rag/vector_store.py")
+    print("FUNCTION : add_documents()")
+    print("DOCUMENTS:", len(documents))
+
+    collection.add(
+        documents=documents,
+        embeddings=embeddings,
+        ids=ids,
+        metadatas=metadatas
     )
 
-    chunks = splitter.split_text(text)
+    print("VECTOR STORE : Documents added")
+    print("==================================")
 
-    docs = [Document(page_content=chunk) for chunk in chunks]
 
-    embeddings = HuggingFaceEmbeddings(
+def search(query_embedding, top_k=4):
 
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    print()
+    print("========== VECTOR SEARCH ==========")
+    print("FILE     : rag/vector_store.py")
+    print("FUNCTION : search()")
+    print("TOP K    :", top_k)
+
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=top_k
     )
 
-    db = FAISS.from_documents(docs, embeddings)
+    print(
+        "RESULTS :",
+        len(results["documents"][0])
+        if results["documents"]
+        else 0
+    )
 
-    db.save_local("faiss_db")
+    print("===================================")
 
-    print("Vector DB Created")
-
-
-if __name__ == "__main__":
-
-    create_vector_db()
+    return results

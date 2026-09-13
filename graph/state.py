@@ -19,3 +19,5 @@ class AgentState(TypedDict):
     answer:str
 
     route:str
+
+    context: str

@@ -1,26 +1,15 @@
-Hi
-Hello 👋 Welcome to AI Baby Camera Support.
+Camera Motion Alert Troubleshooting
 
-Hello
-Hi there 👋 How can I help you today?
+Motion alerts may occur when the camera detects movement in its field of view.
 
-Blur video issue
-Blur can happen because of low lighting, camera focus issue, or baby movement.
+To reduce false motion alerts:
+1. Check the camera position.
+2. Make sure the camera is not pointed toward moving objects.
+3. Check the motion detection settings.
+4. Verify that the firmware is up to date.
 
-Motion alert issue
-Shadows or lighting changes may trigger false motion alerts.
+Rollover
 
-No sound in clips
-Please check microphone permissions and restart the camera.
+Rollover allows unused subscription data to be carried forward according to the applicable subscription plan.
 
-FPS issue
-Low FPS can happen because of poor WiFi or low bandwidth.
-
-Camera offline
-Please check WiFi connectivity and restart the camera.
-
-Software crash
-Please reinstall the application and clear app cache.
-
-Login issue
-Reset password and verify email address.
+If a customer reports that rollover did not occur, verify the customer's subscription and check the latest rollover event.

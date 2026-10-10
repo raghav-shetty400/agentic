@@ -1,720 +1,1544 @@
 <!DOCTYPE html>
+
 <html>
+
+
 
 <head>
 
+
+
 <title>AI Support Bot</title>
+
+
 
 <style>
 
+
+
 body {
+
     margin: 0;
+
     font-family: Arial;
+
     background: #f5f5f5;
+
 }
 
 
+
+
+
 /* =====================================================
+
    CHATBOT
+
 ===================================================== */
+
+
 
 .chatbot {
 
+
+
     position: fixed;
+
+
 
     right: 20px;
 
+
+
     bottom: 20px;
+
+
 
     width: 380px;
 
+
+
     height: 700px;
+
+
 
     background: white;
 
+
+
     border-radius: 20px;
+
+
 
     overflow: hidden;
 
+
+
     box-shadow: 0px 4px 20px rgba(0,0,0,0.2);
+
+
 
     display: flex;
 
+
+
     flex-direction: column;
+
 }
 
 
+
+
+
 /* =====================================================
+
    HEADER
+
 ===================================================== */
+
+
 
 .header {
 
+
+
     background: #d6b3f7;
+
+
 
     color: #2e3a59;
 
+
+
     padding: 20px;
+
+
 
     font-size: 32px;
 
+
+
     font-weight: bold;
+
 }
 
 
+
+
+
 /* =====================================================
+
    CHAT AREA
+
 ===================================================== */
+
+
 
 #chat {
 
+
+
     flex: 1;
+
+
 
     overflow-y: auto;
 
+
+
     padding: 15px;
 
+
+
     background: #f7f7f7;
+
 }
+
+
+
 
 
 /* =====================================================
+
    MESSAGE
+
 ===================================================== */
+
+
 
 .message {
 
+
+
     margin-bottom: 15px;
 
+
+
     display: flex;
+
 }
+
+
 
 .user {
 
+
+
     justify-content: flex-end;
+
 }
+
+
 
 .bot {
 
+
+
     justify-content: flex-start;
+
 }
+
+
+
 
 
 .bubble {
 
+
+
     max-width: 75%;
+
+
 
     padding: 14px;
 
+
+
     border-radius: 18px;
+
+
 
     font-size: 16px;
 
+
+
     line-height: 1.4;
 
+
+
     white-space: pre-wrap;
+
 }
+
+
+
 
 
 .user .bubble {
 
+
+
     background: #d8b7f7;
 
+
+
     color: #2e3a59;
+
 }
+
+
+
 
 
 .bot .bubble {
 
+
+
     background: #ececec;
 
+
+
     color: #2e3a59;
+
 }
+
+
+
 
 
 /* =====================================================
+
    OPTIONS
+
 ===================================================== */
+
+
 
 .options {
 
+
+
     margin-top: 10px;
+
 }
+
+
+
 
 
 .option-btn {
 
+
+
     padding: 10px 15px;
+
+
 
     margin: 5px;
 
+
+
     border: none;
+
+
 
     border-radius: 12px;
 
+
+
     background: white;
+
+
 
     border: 2px solid #d6b3f7;
 
+
+
     cursor: pointer;
 
+
+
     font-size: 15px;
+
 }
+
+
+
 
 
 .option-btn:hover {
 
+
+
     background: #f0e0ff;
+
 }
+
+
+
 
 
 /* =====================================================
+
    INPUT
+
 ===================================================== */
+
+
 
 .input-area {
 
+
+
     display: flex;
+
+
 
     padding: 15px;
 
+
+
     border-top: 1px solid #ddd;
 
+
+
     background: white;
+
 }
+
+
+
 
 
 #msg {
 
+
+
     flex: 1;
+
+
 
     padding: 12px;
 
+
+
     border-radius: 15px;
+
+
 
     border: 1px solid #ccc;
 
+
+
     outline: none;
+
 }
+
+
+
 
 
 .send-btn {
 
+
+
     margin-left: 10px;
+
+
 
     padding: 12px 18px;
 
+
+
     border: none;
+
+
 
     border-radius: 15px;
 
+
+
     background: #d6b3f7;
 
+
+
     cursor: pointer;
+
 }
+
+
+
 
 
 .send-btn:hover {
 
+
+
     background: #c89ef0;
+
 }
+
+
+
 
 
 /* =====================================================
+
    LOADING
+
 ===================================================== */
+
+
 
 .loading {
 
+
+
     font-style: italic;
 
+
+
     color: #666;
+
 }
+
+
 
 </style>
 
+
+
 </head>
+
+
+
 
 
 <body>
 
 
+
+
+
 <div class="chatbot">
 
 
+
+
+
     <!-- =================================================
+
          HEADER
+
     ================================================= -->
+
+
 
     <div class="header">
 
+
+
         AI Support Bot
+
+
 
     </div>
 
 
+
+
+
     <!-- =================================================
+
          CHAT
+
     ================================================= -->
+
+
 
     <div id="chat">
 
+
+
         <div class="message bot">
+
+
 
             <div class="bubble">
 
+
+
                 Hello! 👋
 
+
+
                 <br><br>
+
+
 
                 How can I help you today?
 
+
+
                 <br><br>
+
+
 
                 You can type your question or select a category.
 
+
+
                 <div class="options">
 
+
+
                     <button
+
                         class="option-btn"
+
                         onclick="cameraIssue()"
+
                     >
+
                         Camera Issue
+
                     </button>
+
+
+
 
 
                     <button
+
                         class="option-btn"
+
                         onclick="softwareIssue()"
+
                     >
+
                         Software Issue
+
                     </button>
+
+
 
                 </div>
 
+
+
             </div>
+
+
 
         </div>
 
+
+
     </div>
+
+
+
 
 
     <!-- =================================================
+
          INPUT
+
     ================================================= -->
+
+
 
     <div class="input-area">
 
+
+
         <input
+
             type="text"
+
             id="msg"
+
             placeholder="Ask anything..."
+
             autocomplete="off"
+
         >
+
+
 
         <button
+
             class="send-btn"
+
             onclick="sendMessage()"
+
         >
+
             Send
+
         </button>
 
+
+
     </div>
+
+
+
 
 
 </div>
 
 
 
+
+
+
+
 <script>
 
 
+
+
+
 /* =====================================================
+
    GLOBAL VARIABLES
+
 ===================================================== */
 
+
+
 window.awaitingUsername = false;
+
+
 
 window.selectedIssue = "";
 
 
-const chat =
-    document.getElementById("chat");
+
+let socket = null;
+let currentBubble = null;
+let currentResponse = "";
+let websocketConnected = false;
+
+
+
 
 
 /* =====================================================
-   ADD USER MESSAGE
+   WEBSOCKET CONNECTION
 ===================================================== */
+
+function connectWebSocket() {
+
+    console.log(
+        "========== CONNECTING WEBSOCKET =========="
+    );
+
+    socket =
+        new WebSocket(
+            "ws://127.0.0.1:8765"
+        );
+
+    socket.onopen = function() {
+
+        websocketConnected = true;
+
+        console.log(
+            "========== WEBSOCKET CONNECTED =========="
+        );
+
+        console.log(
+            "WebSocket state:",
+            socket.readyState
+        );
+    };
+
+    socket.onmessage = function(event) {
+
+        console.log(
+            "========== WEBSOCKET MESSAGE =========="
+        );
+
+        console.log(
+            "Received chunk:",
+            JSON.stringify(event.data)
+        );
+
+        const data = event.data;
+
+        if (data === "[[STREAM_END]]") {
+
+            console.log(
+                "========== STREAM FINISHED =========="
+            );
+
+            console.log(
+                "Final response:",
+                currentResponse
+            );
+
+            if (
+                currentResponse.toLowerCase().includes("username") ||
+                currentResponse.toLowerCase().includes("email address")
+            ) {
+                window.awaitingUsername = true;
+            }
+
+            currentBubble = null;
+            currentResponse = "";
+            scrollBottom();
+            return;
+        }
+
+        if (currentBubble === null) {
+            currentBubble = createStreamingMessage();
+        }
+
+        currentResponse += data;
+        currentBubble.textContent = currentResponse;
+        scrollBottom();
+    };
+
+    socket.onerror = function(error) {
+
+        websocketConnected = false;
+
+        console.error(
+            "========== WEBSOCKET ERROR =========="
+        );
+
+        console.error(error);
+    };
+
+    socket.onclose = function(event) {
+
+        websocketConnected = false;
+
+        console.log(
+            "========== WEBSOCKET CLOSED =========="
+        );
+
+        console.log("Code:", event.code);
+        console.log("Reason:", event.reason);
+
+        setTimeout(function() {
+            connectWebSocket();
+        }, 1000);
+    };
+}
+
+connectWebSocket();
+
+
+/* =====================================================
+
+   ADD USER MESSAGE
+
+===================================================== */
+
+
 
 function addUser(text) {
 
+
+
     const message =
+
         document.createElement("div");
 
+
+
     message.className =
+
         "message user";
 
 
+
+
+
     const bubble =
+
         document.createElement("div");
 
+
+
     bubble.className =
+
         "bubble";
+
+
+
 
 
     bubble.textContent =
+
         text;
 
 
+
+
+
     message.appendChild(
+
         bubble
+
     );
+
+
+
 
 
     chat.appendChild(
+
         message
+
     );
 
 
+
+
+
     scrollBottom();
+
 }
 
 
+
+
+
 /* =====================================================
+
    ADD BOT MESSAGE
+
 ===================================================== */
+
+
 
 function addBot(text) {
 
+
+
     const message =
+
         document.createElement("div");
 
+
+
     message.className =
+
         "message bot";
 
 
+
+
+
     const bubble =
+
         document.createElement("div");
 
+
+
     bubble.className =
+
         "bubble";
+
+
+
 
 
     bubble.innerHTML =
+
         text.replace(
+
             /\n/g,
+
             "<br>"
+
         );
 
 
+
+
+
     message.appendChild(
+
         bubble
+
     );
+
+
+
 
 
     chat.appendChild(
+
         message
+
     );
 
 
+
+
+
     scrollBottom();
+
 }
 
 
+
+
+
 /* =====================================================
+
    CREATE STREAMING MESSAGE
+
 ===================================================== */
+
+
 
 function createStreamingMessage() {
 
+
+
     const message =
+
         document.createElement("div");
 
+
+
     message.className =
+
         "message bot";
 
 
+
+
+
     const bubble =
+
         document.createElement("div");
 
+
+
     bubble.className =
+
         "bubble";
 
 
+
+
+
     message.appendChild(
+
         bubble
+
     );
+
+
+
 
 
     chat.appendChild(
+
         message
+
     );
 
 
+
+
+
     scrollBottom();
+
+
+
 
 
     return bubble;
+
 }
 
 
+
+
+
 /* =====================================================
+
    CAMERA ISSUE
+
 ===================================================== */
+
+
 
 function cameraIssue() {
 
+
+
     addUser(
+
         "Camera Issue"
+
     );
 
 
+
+
+
     const message =
+
         document.createElement("div");
 
+
+
     message.className =
+
         "message bot";
 
 
+
+
+
     const bubble =
+
         document.createElement("div");
 
+
+
     bubble.className =
+
         "bubble";
 
 
+
+
+
     bubble.innerHTML = `
+
+
 
         Please select camera issue
 
+
+
         <div class="options">
 
-            <button
-                class="option-btn"
-                onclick="sendOption('rollover')"
-            >
-                Rollover event issue
-            </button>
+
 
             <button
+
                 class="option-btn"
-                onclick="sendOption('motion detection false alert')"
+
+                onclick="sendOption('rollover')"
+
             >
-                Motion Alert
+
+                Rollover event issue
+
             </button>
+
+
+
+            <button
+
+                class="option-btn"
+
+                onclick="sendOption('motion detection false alert')"
+
+            >
+
+                Motion Alert
+
+            </button>
+
+
 
         </div>
+
+
 
     `;
 
 
+
+
+
     message.appendChild(
+
         bubble
+
     );
+
+
+
 
 
     chat.appendChild(
+
         message
+
     );
+
+
+
 
 
     scrollBottom();
+
 }
 
 
+
+
+
 /* =====================================================
+
    SOFTWARE ISSUE
+
 ===================================================== */
+
+
 
 function softwareIssue() {
 
+
+
     addUser(
+
         "Software Issue"
+
     );
 
 
+
+
+
     const message =
+
         document.createElement("div");
 
+
+
     message.className =
+
         "message bot";
 
 
+
+
+
     const bubble =
+
         document.createElement("div");
 
+
+
     bubble.className =
+
         "bubble";
+
+
+
 
 
     bubble.innerHTML = `
 
+
+
         Please select software issue
+
+
 
         <div class="options">
 
-            <button
-                class="option-btn"
-                onclick="sendOption('App crashing')"
-            >
-                App Crash
-            </button>
+
 
             <button
+
                 class="option-btn"
-                onclick="sendOption('Login issue')"
+
+                onclick="sendOption('App crashing')"
+
             >
-                Login Issue
+
+                App Crash
+
             </button>
+
+
+
+            <button
+
+                class="option-btn"
+
+                onclick="sendOption('Login issue')"
+
+            >
+
+                Login Issue
+
+            </button>
+
+
 
         </div>
+
+
 
     `;
 
 
+
+
+
     message.appendChild(
+
         bubble
+
     );
+
+
+
 
 
     chat.appendChild(
+
         message
+
     );
 
 
+
+
+
     scrollBottom();
+
 }
 
 
+
+
+
 /* =====================================================
+
    OPTION CLICK
+
 ===================================================== */
 
+
+
 async function sendOption(text) {
+
+
 
     addUser(text);
 
 
+
+
+
     window.selectedIssue =
+
         text;
 
 
+
+
+
     /* =================================================
+
        ROLLOVER
+
     ================================================= */
+
+
 
     if (text === "rollover") {
 
+
+
         /*
+
          * IMPORTANT
+
          *
+
          * We DO NOT directly ask /search-user here.
+
          *
+
          * We first call /chat so Flask/LangGraph
+
          * identifies rollover and creates the
+
          * waiting_for_username session.
+
          */
 
+
+
         await normalChat(
+
             text
+
         );
 
+
+
         return;
+
     }
 
 
+
+
+
     /* =================================================
+
        MOTION ALERT
+
     ================================================= */
 
+
+
     if (
+
         text ===
+
         "motion detection false alert"
+
     ) {
 
+
+
         await normalChat(
+
             text
+
         );
 
+
+
         return;
+
     }
 
 
+
+
+
     /* =================================================
+
        APP CRASH
+
     ================================================= */
 
+
+
     if (
+
         text === "App crashing"
+
     ) {
 
+
+
         await normalChat(
+
             text
+
         );
 
+
+
         return;
+
     }
+
+
+
 
 
     /* =================================================
+
        LOGIN
+
     ================================================= */
 
+
+
     if (
+
         text === "Login issue"
+
     ) {
 
+
+
         await normalChat(
+
             text
+
         );
 
+
+
         return;
+
     }
+
+
 
 }
 
 
+
+
+
 /* =====================================================
+
    SEND MESSAGE
+
 ===================================================== */
+
+
 
 async function sendMessage() {
 
+
+
     const input =
+
         document.getElementById("msg");
 
 
+
+
+
     const text =
+
         input.value.trim();
+
+
+
 
 
     if (!text) {
 
+
+
         return;
+
+
 
     }
 
 
+
+
+
     /* =================================================
+
        SHOW USER MESSAGE
+
     ================================================= */
 
+
+
     addUser(text);
+
+
+
 
 
     input.value = "";
 
 
+
+
+
     /* =================================================
+
        IMPORTANT
+
        EVERYTHING GOES THROUGH /chat
+
     ================================================= */
 
+
+
     await normalChat(
+
         text
+
     );
 
+
+
 }
+
+
+
 
 
 /* =====================================================
@@ -728,276 +1552,148 @@ async function normalChat(
     try {
 
         console.log(
-            "Sending message:",
+            "========== NORMAL CHAT =========="
+        );
+
+        console.log(
+            "Message:",
             message
         );
 
-
-        const chatResponse =
-            await fetch(
-                "/chat",
-                {
-
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-
-                        message:
-                            message
-
-                    })
-
-                }
-            );
-
-
         console.log(
-            "HTTP STATUS:",
-            chatResponse.status
+            "WebSocket state:",
+            socket ? socket.readyState : "NO SOCKET"
         );
 
-
-        /* =================================================
-           ERROR
-        ================================================= */
-
         if (
-            !chatResponse.ok
+            !socket ||
+            socket.readyState !== WebSocket.OPEN
         ) {
-
-            let errorText = "";
-
-            try {
-
-                errorText =
-                    await chatResponse.text();
-
-            }
-            catch (e) {
-
-                errorText =
-                    "Unable to read server response.";
-
-            }
-
 
             console.error(
-                "SERVER RESPONSE:",
-                errorText
+                "WebSocket is not connected."
             );
-
-
-            throw new Error(
-                "Server returned " +
-                chatResponse.status
-            );
-
-        }
-
-
-        /* =================================================
-           CHECK CONTENT TYPE
-        ================================================= */
-
-        const contentType =
-            chatResponse.headers.get(
-                "content-type"
-            );
-
-
-        console.log(
-            "CONTENT TYPE:",
-            contentType
-        );
-
-
-        /*
-         * Normal /chat returns JSON.
-         */
-
-        if (
-            contentType &&
-            contentType.includes(
-                "application/json"
-            )
-        ) {
-
-            const data =
-                await chatResponse.json();
-
-
-            console.log(
-                "CHAT RESPONSE:",
-                data
-            );
-
-
-            const reply =
-                data.reply ||
-                "I couldn't generate a response.";
-
 
             addBot(
-                reply
+                "WebSocket is connecting. Please try again in a moment."
             );
 
-
-            /*
-             * Flask session now knows whether
-             * the next message is username/email.
-             *
-             * We keep this variable only for UI/debugging.
-             */
-
             if (
-                reply.toLowerCase().includes(
-                    "username"
-                ) ||
-                reply.toLowerCase().includes(
-                    "email address"
-                )
+                !socket ||
+                socket.readyState === WebSocket.CLOSED
             ) {
-
-                window.awaitingUsername =
-                    true;
-
+                connectWebSocket();
             }
 
             return;
-
         }
 
+        currentBubble = null;
+        currentResponse = "";
 
-        /* =================================================
-           STREAMING RESPONSE
-        ================================================= */
-
-        const bubble =
-            createStreamingMessage();
-
-
-        const reader =
-            chatResponse
-                .body
-                .getReader();
-
-
-        const decoder =
-            new TextDecoder();
-
-
-        let botText = "";
-
-
-        while (true) {
-
-            const {
-                value,
-                done
-            } =
-                await reader.read();
-
-
-            if (done) {
-
-                break;
-
-            }
-
-
-            const chunk =
-                decoder.decode(
-                    value,
-                    {
-                        stream: true
-                    }
-                );
-
-
-            botText +=
-                chunk;
-
-
-            bubble.innerHTML =
-                botText.replace(
-                    /\n/g,
-                    "<br>"
-                );
-
-
-            scrollBottom();
-
-        }
-
-
-        window.awaitingUsername =
-            false;
-
-        window.selectedIssue =
-            "";
-
-
-    }
-    catch (error) {
-
-        console.error(
-            "Message error:",
-            error
+        console.log(
+            "Sending through WebSocket:",
+            message
         );
 
+        socket.send(message);
+
+        console.log(
+            "Message sent!"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "WebSocket chat error:",
+            error
+        );
 
         addBot(
             "Sorry, I couldn't process your message."
         );
-
     }
-
 }
 
 
 /* =====================================================
+
    ENTER KEY
+
 ===================================================== */
 
+
+
 document
+
     .getElementById("msg")
+
     .addEventListener(
+
         "keypress",
+
         function(event) {
 
+
+
             if (
+
                 event.key === "Enter"
+
             ) {
+
+
 
                 event.preventDefault();
 
+
+
                 sendMessage();
+
+
 
             }
 
+
+
         }
+
     );
 
 
+
+
+
 /* =====================================================
+
    AUTO SCROLL
+
 ===================================================== */
+
+
 
 function scrollBottom() {
 
+
+
     chat.scrollTop =
+
         chat.scrollHeight;
 
+
+
 }
+
+
 
 </script>
 
 
+
+
+
 </body>
+
+
 
 </html>

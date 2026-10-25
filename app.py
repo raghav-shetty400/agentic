@@ -709,36 +709,85 @@ Knowledge:
             })
 
 
+        
+
         # =================================================
-        # GENERAL CHAT
+        # GENERAL CHAT - STREAMING
         # =================================================
 
         if route == "general":
 
             print()
-            print(">>> GENERAL CHAT")
+            print(">>> GENERAL CHAT STREAMING")
 
-
+            # Use an existing answer if available
             if answer:
-
-                print()
-                print(">>> GENERAL ANSWER FOUND")
-
                 return jsonify({
                     "reply": answer
                 })
 
+            print(">>> Generating response using Ollama...")
 
-            print()
-            print("WARNING: General graph returned EMPTY answer")
+            general_prompt = f"""
+You are a friendly, helpful conversational AI assistant.
 
+User message:
+{message}
 
-            return jsonify({
+Instructions:
+- Respond directly to the user's message.
+- Handle greetings, small talk, thanks, and general questions naturally.
+- Avoid repeating the same generic response.
+- Ask follow-up questions when they are useful.
+- Keep answers clear and concise.
+- Never invent customer, account, or device information.
+- Do not claim to have personal experiences or emotions.
+- Technical questions about IoT knowledge belong to RAG.
+- Requests to check a user's actual device or account belong to Support.
 
-                "reply":
-                "How can I help you today?"
+Respond naturally to the user's message.
+"""
 
-            })
+            def generate_general_response():
+
+                try:
+                    for chunk in llm.stream(general_prompt):
+
+                        content = getattr(
+                            chunk,
+                            "content",
+                            ""
+                        )
+
+                        if content:
+                            print(
+                                ">>> GENERAL CHUNK:",
+                                repr(content)
+                            )
+
+                            yield content
+
+                except Exception as e:
+                    print(
+                        ">>> GENERAL STREAM ERROR:",
+                        str(e)
+                    )
+
+                    yield "\nSorry, I couldn't complete the response."
+
+            return Response(
+                stream_with_context(
+                    generate_general_response()
+                ),
+                content_type="text/plain; charset=utf-8"
+            )
+
+        # =================================================
+        # UNKNOWN ROUTE
+        # =================================================
+
+        print()
+        print("WARNING: UNKNOWN ROUTE")
 
 
         # =================================================

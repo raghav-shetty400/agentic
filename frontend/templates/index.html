@@ -517,83 +517,18 @@ body {
 
 
     <div id="chat">
-
-
-
         <div class="message bot">
-
-
-
             <div class="bubble">
-
-
-
                 Hello! 👋
-
-
-
                 <br><br>
-
-
-
-                How can I help you today?
-
-
-
-                <br><br>
-
-
-
-                You can type your question or select a category.
-
-
-
+                How can I assist you today?
                 <div class="options">
-
-
-
-                    <button
-
-                        class="option-btn"
-
-                        onclick="cameraIssue()"
-
-                    >
-
-                        Camera Issue
-
-                    </button>
-
-
-
-
-
-                    <button
-
-                        class="option-btn"
-
-                        onclick="softwareIssue()"
-
-                    >
-
-                        Software Issue
-
-                    </button>
-
-
-
+                    <button class="option-btn" type="button" onclick="showMainOption('Product Information')">Product Information</button>
+                    <button class="option-btn" type="button" onclick="showMainOption('Device Troubleshooting')">Device Troubleshooting</button>
+                    <button class="option-btn" type="button" onclick="showMainOption('HubbleClub App Questions and Troubleshooting')">HubbleClub App Questions and Troubleshooting</button>
                 </div>
-
-
-
             </div>
-
-
-
         </div>
-
-
-
     </div>
 
 
@@ -680,6 +615,7 @@ let socket = null;
 let currentBubble = null;
 let currentResponse = "";
 let websocketConnected = false;
+const chat = document.getElementById("chat");
 
 
 
@@ -1030,6 +966,140 @@ function createStreamingMessage() {
 ===================================================== */
 
 
+
+
+/* =====================================================
+   NEW SUPPORT MENUS
+   These additions keep the existing WebSocket pipeline.
+===================================================== */
+function addMenuMessage(question, options, clickHandler, includeBack = true) {
+    const message = document.createElement("div");
+    message.className = "message bot";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = question;
+
+    const optionsDiv = document.createElement("div");
+    optionsDiv.className = "options";
+
+    options.forEach(function (option) {
+        const button = document.createElement("button");
+        button.className = "option-btn";
+        button.type = "button";
+        button.textContent = option;
+        button.addEventListener("click", function () {
+            clickHandler(option);
+        });
+        optionsDiv.appendChild(button);
+    });
+
+    if (includeBack) {
+        const backButton = document.createElement("button");
+        backButton.className = "option-btn";
+        backButton.type = "button";
+        backButton.textContent = "Back to main menu";
+        backButton.addEventListener("click", showMainMenu);
+        optionsDiv.appendChild(backButton);
+    }
+
+    bubble.appendChild(document.createElement("br"));
+    bubble.appendChild(optionsDiv);
+    message.appendChild(bubble);
+    chat.appendChild(message);
+    scrollBottom();
+}
+
+function showMainMenu() {
+    addMenuMessage("How can I assist you today?", [
+        "Product Information",
+        "Device Troubleshooting",
+        "HubbleClub App Questions and Troubleshooting"
+    ], showMainOption, false);
+}
+
+function showMainOption(option) {
+    addUser(option);
+
+    if (option === "Product Information") {
+        addMenuMessage("Which product would you like to know more about?", [
+            "AI-Powered Monitors",
+            "Smart Video Monitors",
+            "Smart Soothers & Audio Monitors",
+            "Movement Trackers",
+            "Health & Wellness Devices",
+            "Roo - Prenatal Device"
+        ], function (product) {
+            addUser(product);
+            window.selectedIssue = product;
+            normalChat("Tell me about " + product + ", including its features and setup.");
+        });
+        return;
+    }
+
+    if (option === "Device Troubleshooting") {
+        addMenuMessage("Please select your device issue.", [
+            "Device not powering on",
+            "Device not connecting to Wi-Fi",
+            "Camera offline or disconnected",
+            "Video/live stream not working",
+            "Night vision issue",
+            "Rollover event issue",
+            "Motion detection false alert",
+            "Sound/audio issue",
+            "Notifications/alerts not working",
+            "Device setup/pairing issue",
+            "Firmware update issue",
+            "Other device issue"
+        ], function (issue) {
+            addUser(issue);
+            window.selectedIssue = issue;
+            // Keep legacy issue wording where the current backend expects it.
+            const backendMessage = {
+                "Rollover event issue": "rollover",
+                "Motion detection false alert": "motion detection false alert",
+                "Device not powering on": "Device not powering on",
+                "Device not connecting to Wi-Fi": "Device not connecting to Wi-Fi",
+                "Camera offline or disconnected": "Camera offline or disconnected",
+                "Video/live stream not working": "Video/live stream not working",
+                "Night vision issue": "Night vision issue",
+                "Sound/audio issue": "Sound/audio issue",
+                "Notifications/alerts not working": "Notifications/alerts not working",
+                "Device setup/pairing issue": "Device setup/pairing issue",
+                "Firmware update issue": "Firmware update issue",
+                "Other device issue": "Other device issue"
+            }[issue] || issue;
+            normalChat(backendMessage);
+        });
+        return;
+    }
+
+    if (option === "HubbleClub App Questions and Troubleshooting") {
+        addMenuMessage("What do you need help with in the HubbleClub app?", [
+            "Cannot log in",
+            "Forgot/reset password",
+            "App crashing",
+            "App not opening",
+            "Cannot add/pair a device",
+            "Live video not loading",
+            "Notifications not received",
+            "Subscription/membership question",
+            "Account/profile update",
+            "App permissions",
+            "App update issue",
+            "Other app issue"
+        ], function (issue) {
+            addUser(issue);
+            window.selectedIssue = issue;
+            // Map the two legacy software labels to their existing backend wording.
+            const backendMessage = {
+                "App crashing": "App crashing",
+                "Cannot log in": "Login issue"
+            }[issue] || issue;
+            normalChat(backendMessage);
+        });
+    }
+}
 
 function cameraIssue() {
 

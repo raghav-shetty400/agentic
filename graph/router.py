@@ -127,6 +127,10 @@ def router(state):
         "did rollover happen",
 
         "check my rollover",
+        "Rollover event issue",
+        "rollover event issue",
+        "rollover",
+
 
         # NEW - customer-specific rollover questions
         "my rollover",
@@ -217,8 +221,6 @@ def router(state):
         # ROLLOVER
         # -------------------------------------------------
 
-        "rollover",
-        "roll over",
 
         # -------------------------------------------------
         # FIRMWARE

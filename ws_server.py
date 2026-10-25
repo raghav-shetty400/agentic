@@ -1,6 +1,11 @@
+
 import asyncio
 import aiohttp
 import websockets
+
+
+FLASK_URL = "http://127.0.0.1:5000/chat"
+END_MARKER = "[[STREAM_END]]"
 
 
 async def handle_client(websocket):
@@ -10,26 +15,26 @@ async def handle_client(websocket):
     print("Client connected")
     print("==============================")
 
-    try:
+    timeout = aiohttp.ClientTimeout(total=None)
 
-        async for message in websocket:
+    # Keep the same Flask session across messages
+    async with aiohttp.ClientSession(
+        timeout=timeout,
+        cookie_jar=aiohttp.CookieJar(unsafe=True)
+    ) as session:
 
-            print()
-            print("========== WEBSOCKET ==========")
-            print("Message received:", message)
+        try:
 
-            try:
+            async for message in websocket:
 
-                timeout = aiohttp.ClientTimeout(
-                    total=None
-                )
+                print()
+                print("========== WEBSOCKET ==========")
+                print("Message received:", message)
 
-                async with aiohttp.ClientSession(
-                    timeout=timeout
-                ) as session:
+                try:
 
                     async with session.post(
-                        "http://127.0.0.1:5000/chat",
+                        FLASK_URL,
                         json={
                             "message": message
                         }
@@ -40,11 +45,14 @@ async def handle_client(websocket):
                             response.status
                         )
 
+                        content_type = response.headers.get(
+                            "Content-Type",
+                            ""
+                        )
+
                         print(
                             "Content-Type:",
-                            response.headers.get(
-                                "Content-Type"
-                            )
+                            content_type
                         )
 
                         print(
@@ -55,52 +63,75 @@ async def handle_client(websocket):
                         )
 
                         print()
-                        print(
-                            "========== STREAM START =========="
-                        )
+                        print("========== STREAM START ==========")
 
-                        async for chunk in response.content.iter_any():
+                        # Handle Flask JSON responses
+                        if "application/json" in content_type:
 
-                            if not chunk:
-                                continue
+                            result = await response.json(
+                                content_type=None
+                            )
 
-                            text = chunk.decode(
-                                "utf-8",
-                                errors="ignore"
+                            reply = result.get(
+                                "reply",
+                                "No response received from Flask."
                             )
 
                             print(
-                                "WS CHUNK:",
-                                repr(text)
+                                "WS REPLY:",
+                                repr(reply)
                             )
 
-                            await websocket.send(text)
+                            await websocket.send(str(reply))
+
+                        # Forward plain-text streaming responses
+                        else:
+
+                            async for chunk in response.content.iter_any():
+
+                                if not chunk:
+                                    continue
+
+                                text = chunk.decode(
+                                    "utf-8",
+                                    errors="ignore"
+                                )
+
+                                print(
+                                    "WS CHUNK:",
+                                    repr(text)
+                                )
+
+                                await websocket.send(text)
+
+                        # Signal completion to the frontend
+                        await websocket.send(END_MARKER)
 
                         print()
-                        print(
-                            "========== STREAM END =========="
+                        print("========== STREAM END ==========")
+
+                except Exception as error:
+
+                    print()
+                    print(
+                        "WEBSOCKET ERROR:",
+                        type(error).__name__
+                    )
+
+                    print("ERROR:", str(error))
+
+                    try:
+                        await websocket.send(
+                            "Sorry, I couldn't process your request."
                         )
 
-            except Exception as error:
+                        await websocket.send(END_MARKER)
 
-                print()
-                print(
-                    "WEBSOCKET ERROR:",
-                    type(error).__name__
-                )
+                    except websockets.exceptions.ConnectionClosed:
+                        break
 
-                print(
-                    "ERROR:",
-                    str(error)
-                )
-
-                await websocket.send(
-                    "\nSorry, I couldn't process your request."
-                )
-
-    except websockets.exceptions.ConnectionClosed:
-
-        print("Client disconnected")
+        except websockets.exceptions.ConnectionClosed:
+            print("Client disconnected")
 
 
 async def main():
@@ -116,8 +147,8 @@ async def main():
         "localhost",
         8765
     ):
-
         await asyncio.Future()
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -194,6 +194,52 @@ def router(state):
 
     rag_patterns = [
 
+                # -------------------------------------------------
+        # CHATBOT MENU OPTIONS — ROUTE TO RAG
+        # -------------------------------------------------
+
+        # Main menu
+        "product information",
+        "device troubleshooting",
+        "hubbleclub app questions",
+        "hubbleclub app questions and troubleshooting",
+
+        # Product categories
+        "ai-powered monitors",
+        "smart video monitors",
+        "smart soothers",
+        "smart soothers & audio monitors",
+        "movement trackers",
+        "health & wellness devices",
+        "roo - prenatal device",
+
+        # Device troubleshooting options
+        "device not powering on",
+        "device not connecting to wi-fi",
+        "camera offline or disconnected",
+        "video/live stream not working",
+        "live stream not working",
+        "night vision issue",
+        "motion detection false alert",
+        "sound/audio issue",
+        "notifications/alerts not working",
+        "device setup/pairing issue",
+        "firmware update issue",
+        "other device issue",
+
+        # App troubleshooting options
+        "cannot log in",
+        "forgot/reset password",
+        "app crashing",
+        "cannot add/pair a device",
+        "live video not loading",
+        "notifications not received",
+        "subscription/membership question",
+        "account/profile update",
+        "app permissions",
+        "app update issue",
+        "other app issue",
+
         # -------------------------------------------------
         # CAMERA
         # -------------------------------------------------

@@ -1,15 +1,278 @@
-Camera Motion Alert Troubleshooting
+==============================================================================
+01_product_information.txt
+==============================================================================
 
-Motion alerts may occur when the camera detects movement in its field of view.
+HUBBLE CONNECTED — PRODUCT INFORMATION
+Official source: https://www.support.hubbleconnected.com/knowledge-base/general-questions/
+Product index: https://www.support.hubbleconnected.com/
 
-To reduce false motion alerts:
-1. Check the camera position.
-2. Make sure the camera is not pointed toward moving objects.
-3. Check the motion detection settings.
-4. Verify that the firmware is up to date.
+Q: What is Hubble AI Vision?
+A: Hubble Connected support describes AI Vision as a monitoring camera with 2K UHD image quality, 2.4 GHz and 5 GHz Wi-Fi support, and digital 6X zoom. Listed smart features include Rollover Detection, True-Cry Detection, sleep analytics, and Baby Eye Wellness reporting. Features depend on product model, app configuration, and plan. Verify model-specific details in the official guide.
 
-Rollover
+Q: What features may be available on Hubble AI products?
+A: Official information lists features such as Rollover Detection, True-Cry Detection, sleep analytics, Baby Eye Wellness reporting, two-way communication, sound and motion alerts, night light and soothing sounds, motion-triggered video, video history, and routine or growth tracking. Not every feature is available on every device.
 
-Rollover allows unused subscription data to be carried forward according to the applicable subscription plan.
+Q: What are Smart Video Monitors?
+A: Hubble Connected offers a range of video monitors. Camera, parent-unit, connectivity, recording, and app features vary by model. Ask for the exact model before giving model-specific instructions.
 
-If a customer reports that rollover did not occur, verify the customer's subscription and check the latest rollover event.
+Q: What are Smart Soothers and Audio Monitors?
+A: Hubble Connected offers audio-monitor and soothing products. Features differ by model. For pairing, sound, range, battery, or controls, use the product's user guide or official support article.
+
+Q: What are Movement Trackers and Health & Wellness Devices?
+A: Hubble Connected's support site includes health and monitoring product categories. Capabilities and compatibility depend on the device and app. Ask for the exact model and refer to its official documentation.
+
+Q: What is Roo — Prenatal Device?
+A: Roo is listed in Hubble Connected's prenatal product category. This knowledge file does not contain enough verified model-specific details to describe its functions or provide medical guidance. Refer to the official product guide or contact support.
+
+Q: Does every Hubble product support the same app and features?
+A: No. Hubble Connected supports multiple product families and apps. Choose the app specified for the exact product model. Do not assume that a camera, audio monitor, prenatal product, and health device share the same setup process.
+
+Q: Where can I find official product support?
+A: Visit https://www.support.hubbleconnected.com/ and select the relevant product family or troubleshooting topic.
+
+ACCURACY RULE
+Do not invent specifications, prices, warranty terms, compatibility, subscription entitlements, or availability. If the retrieved text does not answer a model-specific question, ask for the model or direct the customer to the official guide.
+
+
+==============================================================================
+02_camera_setup_wifi_pairing.txt
+==============================================================================
+
+HUBBLE CONNECTED — CAMERA SETUP, PAIRING AND WI-FI
+Official sources:
+https://www.support.hubbleconnected.com/knowledge-base/hubbleclub-app-connectivity/
+https://www.support.hubbleconnected.com/knowledge-base/what-to-do-if-setup-using-qr-code-did-not-work/
+https://www.support.hubbleconnected.com/knowledge-base/how-do-i-set-up-my-camera-using-an-ios-device/
+https://www.support.hubbleconnected.com/knowledge-base/i-changed-my-wi-fi-router-details-and-now-my-camera-is-offline-what-should-i-do/
+
+Q: How do I start setting up a Hubble camera?
+A: Confirm that the correct app for the exact camera model is installed. Follow the in-app setup and the product manual. During QR setup, official HubbleClub guidance recommends holding the phone approximately 15–30 cm from the camera, keeping it steady, ensuring the room is well lit, and setting screen brightness high enough for the camera to read the QR code. On iPhone, check the app permissions requested for setup.
+
+Q: What if QR-code setup fails?
+A: In the app, choose “Try with WiFi setup” if available. Follow the app's instructions to open phone Wi-Fi settings and select the camera's setup network if prompted. Return to the app, wait for detection, select the home Wi-Fi network, enter its password in the app, and wait for setup to finish. Screens can differ by model and app.
+
+Q: My camera will not connect to Wi-Fi. What should I check?
+A: Check that the camera is powered on, the Wi-Fi password entered in the app is correct, and the camera is close enough to the router for a reliable signal. If the app reports a server or connection error, check the home internet connection and try restarting the router and camera. Follow the official guide for the exact model.
+
+Q: What if I changed my router or Wi-Fi password?
+A: Changing router details may require the camera to be reset and set up again so it can use the new network credentials. Reset methods vary by model. Identify the model and follow its official instructions; do not apply a reset sequence intended for a different model.
+
+Q: Why does the camera not appear during setup?
+A: Confirm the correct app is installed, the camera is powered on and in pairing mode, and the phone follows the app instructions. For QR setup, keep the phone steady at the recommended distance and ensure adequate lighting. If QR setup fails, try the Wi-Fi setup path offered by the app.
+
+Q: Does Hubble AI Vision support 2.4 GHz and 5 GHz Wi-Fi?
+A: The official support page for AI Vision says it supports both 2.4 GHz and 5 GHz Wi-Fi. Do not apply this to every Hubble product; requirements depend on the model.
+
+Q: What if setup reports “Setup Failed” or “Server is not responding”?
+A: Recheck the Wi-Fi password and signal, move the camera closer to the router, and verify that home internet works. Restart the router and camera if appropriate. If the error persists, consult the official article for that exact error and model or contact support.
+
+Do not ask customers to disclose Wi-Fi passwords in chat. Never claim setup succeeded unless the app or device confirms it.
+
+
+==============================================================================
+03_camera_offline_live_video_night_vision.txt
+==============================================================================
+
+HUBBLE CONNECTED — CAMERA OFFLINE, LIVE VIDEO AND NIGHT VISION
+Official sources:
+https://www.support.hubbleconnected.com/knowledge-base/my-camera-is-offline-what-should-i-do/
+https://www.support.hubbleconnected.com/knowledge-base/my-hubble-camera-is-offline-what-should-i-do/
+https://www.support.hubbleconnected.com/knowledge-base/i-am-getting-error-connecting-message-what-should-i-do/
+https://www.support.hubbleconnected.com/knowledge-base/troubleshooting-7/
+
+Q: My Hubble camera is offline. What should I do?
+A: Start with non-destructive checks: make sure the camera is plugged in and switched on; check that it is connected to Wi-Fi with a strong signal; refresh the camera list in the app; and power the camera off and on again. If it remains offline, consult the official troubleshooting article for the exact model. A hard reset and re-pairing may be needed, but steps differ by model.
+
+Q: The camera appears offline, but I still receive notifications. Why?
+A: The app can sometimes show a camera as offline even when it is still functioning. Refresh the camera list and restart the camera. Check the indicator light and use the app's “Why offline” flow if available.
+
+Q: What can the camera LED indicate?
+A: On some models, a slowly flashing red LED can indicate the camera is not connected to the router; a red flickering LED can indicate a power-adapter or charger issue; and a solid or slowly flashing blue/green LED may indicate that the camera is connected even if the app status appears stale. LED meanings vary by model; verify them in the exact product guide.
+
+Q: I changed my router and now my camera is offline. What should I do?
+A: The camera may still be configured for the old Wi-Fi network. Follow official instructions for your model to update its connection. Some models require removal from the app, a model-specific reset, and pairing again. Verify the model instructions before resetting.
+
+Q: My live video shows “Error Connecting.” What should I do?
+A: Check that the camera is powered on and online, and that the phone and camera have reliable network connectivity. Close and reopen the app and retry. If the message continues, consult the official “Error Connecting” article and product manual. Do not claim to have checked a device unless the customer-specific support system actually checked it.
+
+Q: Night vision is not activating. What can I try?
+A: On some models, the app provides Night Vision settings with ON or AUTO options. Check those settings first. Additional steps are model-specific; refer to the official guide before attempting sensor-specific reset procedures.
+
+Q: Should I hard-reset the camera?
+A: A hard reset can remove configuration and require pairing again. Try power, network, and app refresh checks first. If reset is needed, follow only the official instructions for the exact model.
+
+ROUTING NOTE
+This file explains general troubleshooting only. “Is my camera online?”, “What is my firmware?”, and “Did my rollover event happen?” require the customer-specific Support workflow and authorized account/device data. Public documentation cannot reveal an individual's device status.
+
+
+==============================================================================
+04_motion_alerts_notifications_recording.txt
+==============================================================================
+
+HUBBLE CONNECTED — MOTION DETECTION, ALERTS AND RECORDING
+Official sources:
+https://www.support.hubbleconnected.com/knowledge-base/i-do-not-receive-notifications-from-the-app-what-should-i-do-2/
+https://www.support.hubbleconnected.com/knowledge-base/how-do-i-adjust-the-levels-of-notifications-sensitivity/
+https://www.support.hubbleconnected.com/knowledge-base/my-camera-does-not-record-motion-triggered-events-what-should-i-do-2/
+https://www.support.hubbleconnected.com/knowledge-base/troubleshooting-2/
+
+Q: I do not receive notifications from HubbleClub. What should I check?
+A: Allow notifications for HubbleClub in phone settings; check Do Not Disturb on the phone or in the app; check camera notification/sensor settings and enable relevant motion, sound, or temperature detection if supported; and log out and back in if needed. Notifications may not be delivered while the customer is actively viewing the camera stream. If the problem persists, contact official support.
+
+Q: Why do I not receive alerts while watching live video?
+A: Official Hubble support explains that the app may suppress notifications while the user is viewing the camera stream because the user can already see what is happening. Test notifications when the app is not actively displaying the stream.
+
+Q: How do I adjust motion or sound sensitivity?
+A: On supported models, open camera settings, go to sensor settings, and adjust sensitivity. Hubble support describes motion levels from Low through High and sound levels from Low through High on supported products. Higher sensitivity can produce more notifications; lower sensitivity can produce fewer. Controls depend on model.
+
+Q: My camera does not record motion-triggered events. What should I check?
+A: In HubbleClub, open camera settings and the Notifications tab. Check that Detect Motion is enabled, choose appropriate sensitivity, and check whether Motion Video Recording is set to Cloud if supported and intended. Check Smart Scheduling: if enabled, ensure at least one schedule is configured. Confirm the product and plan requirements before promising cloud recording.
+
+Q: Why do I receive false motion alerts?
+A: Check camera placement, field of view, and sensitivity. Avoid pointing the camera at moving objects or areas likely to trigger unwanted detections. AI detection depends on model, angle, lighting, and objects in view. Use official model-specific placement guidance. Do not promise that all false alerts can be eliminated.
+
+Q: What if sound or temperature alerts are missing?
+A: Confirm that the model supports the relevant sensor. Check phone notification permissions and camera sensor/notification settings. Sound and temperature options are not available on every model.
+
+Q: What if alerts still do not work?
+A: Check app permissions, Do Not Disturb, camera detection settings, and login status. Sign out and back in if appropriate. If the issue remains, contact Hubble Connected support and include the model and screenshots of relevant settings, but do not share passwords or private data.
+
+
+==============================================================================
+05_hubbleclub_login_account_app.txt
+==============================================================================
+
+HUBBLE CONNECTED — HUBBLECLUB APP, LOGIN, ACCOUNT AND PASSWORD
+Official sources:
+https://www.support.hubbleconnected.com/knowledge-base/hubbleclub-app-connectivity/
+https://www.support.hubbleconnected.com/knowledge-base/how-to-create-a-hubbleclub-account/
+https://www.support.hubbleconnected.com/knowledge-base/i-did-not-receive-the-verification-code-what-should-i-do/
+https://www.support.hubbleconnected.com/knowledge-base/i-cannot-create-a-hubbleclub-account-what-can-i-do/
+https://www.support.hubbleconnected.com/article-categories/troubleshooting/
+
+Q: I forgot my HubbleClub password. How do I reset it?
+A: On the app login screen choose “Forgot Password,” enter the email address linked to the account, and submit the request. Check email for the reset link, including Spam/Junk. Use only the official reset flow. Never share a password or reset link in chat.
+
+Q: I cannot log in. What should I do?
+A: Check that the username/email and password are correct and that you are using the app intended for your product. If you forgot your password, use “Forgot Password.” If the account needs verification, follow the app's verification instructions. If the problem persists, use the official support page for the exact error.
+
+Q: I did not receive the verification code. What should I do?
+A: Check Inbox, Spam/Junk, and Promotions. Use “Resend verification code” or “Resend OTP” in the app. If the app returns to login, follow its instructions to sign in with the registration details and request a code again. Use the newest code received; older codes may not work.
+
+Q: How do I create a HubbleClub account?
+A: Open HubbleClub and choose Create Account. Follow the app prompts to accept applicable policies and enter the requested username, email, and phone number. The official account-creation article says a HubbleClub password should be 8–30 characters, contain at least one uppercase letter, one lowercase letter, and one number, and contain no spaces. It also says the username must be unique and 3–25 characters without spaces. Confirm current app rules if they differ.
+
+Q: I cannot create an account. Why?
+A: An official Hubble article says this can happen when the username or email is already associated with an account. Try a unique username or use the sign-in/password-recovery flow if you may already have an account.
+
+Q: The app crashes or freezes. What should I do?
+A: Confirm the phone meets the app's published OS requirements and that the correct app is installed. Close and reopen the app, restart the phone, and check the app store for an update. If the issue continues, note the phone model, operating-system version, app name/version, and the steps that cause the crash, then contact official support. These are general steps; use model/app-specific guidance when available.
+
+Q: I cannot add or pair a device in the app. What should I do?
+A: Confirm the correct app is installed, the device is powered on and in pairing mode, and the phone follows the app setup instructions. For camera QR setup problems, try the Wi-Fi setup option if offered. See the camera setup knowledge file for details.
+
+Q: Is every Hubble product supported by HubbleClub?
+A: Do not assume so. Hubble Connected has multiple product families and apps. Check the official product documentation for the app intended for the exact model.
+
+Privacy rule: Never request or expose passwords, one-time codes, authentication tokens, or Wi-Fi passwords in chatbot responses.
+
+
+==============================================================================
+06_membership_subscription_privacy_permissions.txt
+==============================================================================
+
+HUBBLE CONNECTED — MEMBERSHIP, SUBSCRIPTION AND APP PERMISSIONS
+Official sources:
+https://www.support.hubbleconnected.com/knowledge-base/what-does-the-freemium-services-include-and-what-does-it-cost-me/
+https://www.support.hubbleconnected.com/
+https://www.support.hubbleconnected.com/article-categories/account-questions/
+
+Q: What features are included in Hubble's free/freemium service?
+A: An official Hubble support article describes freemium features as including free live video streaming, motion snapshots, motion/sound/temperature notifications for the previous 24 hours on the camera timeline, baby growth and development tracking, expert sleep tips and videos, and lullabies. Sound and temperature features depend on the camera model. This article may not reflect every current plan or product, so verify the model and current membership information before promising a feature.
+
+Q: What does my subscription include?
+A: Subscription benefits depend on product, plan, region, and current membership terms. Check membership information in the app or official support pages. Do not invent prices, trial lengths, cloud-storage duration, renewal dates, or plan entitlements.
+
+Q: How do I check a subscription or membership problem?
+A: Open the relevant app/account and review its membership section if available. Confirm the product and app. For billing, renewal, cancellation, or account-specific subscription status, use the authorized customer-support workflow or official support team. Public documentation cannot determine an individual's active plan or billing status.
+
+Q: Why can I not receive notifications?
+A: The app needs permission to send notifications on the phone. Check phone notification settings, Do Not Disturb, and camera notification settings. For motion, sound, and temperature alerts, confirm the feature is supported and enabled.
+
+Q: Why does the app request permissions?
+A: Some permissions may be needed for setup or app functions. Grant only permissions required for the feature you intend to use, and review current app prompts and privacy information. Exact permissions depend on phone OS and app version.
+
+Q: How do I update account/profile details?
+A: Use account/profile settings in the relevant app if available. If a detail cannot be changed there, consult official account-help pages or contact support. Do not post passwords, verification codes, or full payment details in the chatbot.
+
+Q: Can the chatbot tell me my current subscription status?
+A: Public RAG documents cannot see an individual account. Questions such as “Is my subscription active?” must use the authenticated customer-support workflow and authorized account data.
+
+ACCURACY RULE
+Plan names, prices, benefits, trials, renewal rules, and cancellation methods can change. If current official sources do not provide the exact answer, say so and direct the customer to their membership page or official support.
+
+
+==============================================================================
+07_firmware_audio_sensor_general_troubleshooting.txt
+==============================================================================
+
+HUBBLE CONNECTED — FIRMWARE, AUDIO, SENSOR AND GENERAL TROUBLESHOOTING
+Official sources:
+https://www.support.hubbleconnected.com/knowledge-base/how-to-update-the-firmware-if-my-camera-is-offline/
+https://www.support.hubbleconnected.com/knowledge-base/troubleshooting-7/
+https://www.support.hubbleconnected.com/knowledge-base/troubleshooting-6/
+https://www.support.hubbleconnected.com/knowledge-base/how-do-i-adjust-the-levels-of-notifications-sensitivity/
+
+Q: How do I check or update camera firmware?
+A: On supported models, the camera must be online and the phone may need to be connected to the same local Wi-Fi network. In the app, open camera settings, select Camera Details, and check the firmware version. Use Check or Update if available and follow on-screen instructions. Keep the device on the required network and do not power it off during an update. Steps depend on model.
+
+Q: Can I update firmware while the camera is offline?
+A: Official guidance for some cameras says the camera must be online for firmware updates. Try restoring the connection first. Follow the exact model's instructions; do not assume every model uses the same update process.
+
+Q: My camera is online but a connected sensor is not connected. What should I do?
+A: For supported products, check that the sensor is near enough to the camera and use the app's Connect option if provided. Wait briefly for the connection. Exact steps depend on sensor and camera model.
+
+Q: I cannot hear sound from my monitor.
+A: Check the parent unit's volume setting. Confirm the parent and baby units are within range while keeping them at a safe distance as stated in the product guide. If the issue persists, consult the monitor manual.
+
+Q: I hear a high-pitched noise or audio interference.
+A: Official troubleshooting for some monitor models recommends keeping parent and baby units at least one metre apart to reduce feedback. Wi-Fi cameras may experience interference from nearby 2.4 GHz devices such as Bluetooth equipment or microwave ovens. Move devices farther apart and check the model manual.
+
+Q: Night vision does not activate.
+A: Check whether the app's Night Vision setting is ON or AUTO if those options are available. Additional troubleshooting is model-specific; follow the official product guide before trying sensor-specific reset steps.
+
+Q: How do I adjust motion/sound/temperature sensitivity?
+A: On supported products, open camera settings, choose sensor settings, and select sensitivity. Temperature and sound controls are only available on models with the relevant sensor.
+
+Q: The app shows a firmware update prompt. What should I do?
+A: Follow the on-screen instructions for your model. Keep the camera powered and connected as directed. If an error occurs, note the error message and model name, then use the official support article or contact support.
+
+IMPORTANT
+Do not tell a customer their firmware version, sensor state, subscription state, or device connection state unless that information comes from the authenticated customer-specific Support workflow. This file contains general instructions only.
+
+
+==============================================================================
+08_rollover_customer_specific_routing.txt
+==============================================================================
+
+HUBBLE CONNECTED — ROLLOVER EVENT ROUTING NOTE
+Purpose: chatbot routing guidance. This file does not describe any individual customer's event.
+Official product feature source: https://www.support.hubbleconnected.com/knowledge-base/general-questions/
+
+IMPORTANT ROUTING RULE
+Questions about whether a particular customer's rollover event occurred, why their own rollover failed, or the rollover status of their own camera must use the customer-specific Support workflow. That workflow may request username/email and then query authorized account, device, settings, and event data.
+
+Examples that require Support:
+- Rollover event issue
+- Did my rollover happen?
+- Did my camera detect a rollover?
+- Check my rollover
+- Why did my rollover event not happen?
+- What is my latest rollover event?
+- Is rollover enabled on my device?
+
+Public RAG documentation cannot verify whether a specific customer had a rollover event, whether the feature is enabled on their device, or whether a particular event was recorded.
+
+If the user asks a general educational question such as “What is rollover detection?” or “How does rollover detection work?”, answer only if an official source for the exact product provides the explanation. If the router currently sends every occurrence of “rollover” to Support, preserve that existing behavior until the router is deliberately refined and tested.
+
+Do not invent event timestamps, device status, settings, or detection results. Report only values returned by the authenticated Support data tools.

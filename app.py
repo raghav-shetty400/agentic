@@ -556,18 +556,37 @@ Support Report:
                 })
 
 
+         # =================================================
+        # RAG
+        # =================================================
+
+        if route == "rag":
+
+            print()
+            print(">>> RAG QUESTION DETECTED")
+            print(">>> Question :", message)
+            print(">>> Intent   :", intent)
+            print(">>> Context length :", len(context))
+
+
             # -------------------------------------------------
-            # If RAG retrieval returned context but no answer
+            # RAG CONTEXT FOUND
             # -------------------------------------------------
 
-            if context:
+            if context and context.strip():
 
                 print()
                 print(">>> RAG CONTEXT FOUND")
+
+
+                # =================================================
+                # OLD CODE - RAG WITH LLM (TEMPORARILY DISABLED)
+                # =================================================
+
+                """
                 print(">>> Generating answer using LLM...")
 
-
-                rag_prompt = f"""
+                rag_prompt = f\"\"\"
 You are an IoT customer support knowledge assistant.
 
 Answer the user's question using ONLY the
@@ -588,7 +607,7 @@ User Question:
 Knowledge:
 
 {context}
-"""
+\"\"\"
 
 
                 def generate_rag():
@@ -600,7 +619,6 @@ Knowledge:
                     print()
                     print("========== RAG LLM STREAM START ==========")
 
-
                     try:
 
                         for chunk in llm.stream(rag_prompt):
@@ -611,11 +629,8 @@ Knowledge:
                                 ""
                             )
 
-
                             if not content:
-
                                 continue
-
 
                             if first_token:
 
@@ -624,12 +639,11 @@ Knowledge:
                                 )
 
                                 print(
-                                    f"\n🔥 RAG FIRST TOKEN: "
-                                    f"{first_token_time:.2f} sec\n"
+                                    f"\\n🔥 RAG FIRST TOKEN: "
+                                    f"{first_token_time:.2f} sec\\n"
                                 )
 
                                 first_token = False
-
 
                             print(
                                 content,
@@ -638,7 +652,6 @@ Knowledge:
                             )
 
                             yield content
-
 
                     except Exception as e:
 
@@ -650,10 +663,9 @@ Knowledge:
                         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
                         yield (
-                            "\nSorry, I couldn't generate "
+                            "\\nSorry, I couldn't generate "
                             "the RAG response."
                         )
-
 
                     total_time = (
                         time.time() - start
@@ -671,25 +683,101 @@ Knowledge:
 
 
                 return Response(
-
                     stream_with_context(
                         generate_rag()
                     ),
-
                     mimetype="text/plain",
-
                     headers={
-
-                        "Cache-Control":
-                        "no-cache",
-
-                        "X-Accel-Buffering":
-                        "no"
-
+                        "Cache-Control": "no-cache",
+                        "X-Accel-Buffering": "no"
                     }
-
                 )
 
+             """
+
+
+                # =================================================
+                # NEW CODE - RAG WITHOUT LLM
+                # =================================================
+
+
+        # =================================================
+        # RAG - STREAMING WITHOUT LLM
+        # =================================================
+
+        if route == "rag":
+
+            print()
+            print(">>> RAG QUESTION DETECTED")
+            print(">>> Question :", message)
+            print(">>> Intent   :", intent)
+            print(">>> Context length :", len(context))
+
+            if context and context.strip():
+
+                print()
+                print(">>> RAG CONTEXT FOUND")
+
+                def generate_rag():
+
+                    start = time.time()
+
+                    print()
+                    print("========== RAG WITHOUT LLM STREAM START ==========")
+
+                    answer = (
+                        "Here is the relevant information "
+                        "from our knowledge base:\n\n"
+                        + context.strip()
+                    )
+
+                    chunk_size = 40
+
+                    for i in range(0, len(answer), chunk_size):
+
+                        chunk = answer[i:i + chunk_size]
+
+                        print(chunk, end="", flush=True)
+
+                        yield chunk
+
+                        time.sleep(0.02)
+
+                    total_time = time.time() - start
+
+                    print()
+                    print(
+                        f"🔥 RAG STREAM TOTAL TIME: "
+                        f"{total_time:.4f} sec"
+                    )
+
+                    print("========== RAG WITHOUT LLM STREAM END ==========")
+
+                return Response(
+                    stream_with_context(generate_rag()),
+                    mimetype="text/plain",
+                    headers={
+                        "Cache-Control": "no-cache",
+                        "X-Accel-Buffering": "no"
+                    }
+                )
+            
+        # =================================================
+        # RAG CONTEXT IS EMPTY"
+        # =================================================
+            
+
+            else:
+
+                print()
+                print("WARNING: RAG CONTEXT IS EMPTY")
+
+                return jsonify({
+                    "reply": (
+                        "Sorry, I couldn't find relevant "
+                        "information in our knowledge base."
+                    )
+                })
 
             # -------------------------------------------------
             # RAG returned nothing

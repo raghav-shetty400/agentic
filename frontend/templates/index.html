@@ -1,18 +1,66 @@
 <!DOCTYPE html>
 
-<html>
-
-
+<html lang="en">
 
 <head>
-
-
-
-<title>AI Support Bot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Support Bot</title>
 
 
 
 <style>
+
+.loading-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    font-size: 13px;
+    color: #555;
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 3px solid #ddd;
+    border-top: 3px solid #007bff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#responseTimer {
+    font-weight: bold;
+    color: #333;
+}
+
+.stop-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.stop-btn:hover {
+    background: #b02a37;
+}
+
+.send-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
 
 
 
@@ -443,6 +491,21 @@ body {
 
 
 /* =====================================================
+   PERSISTENT RESPONSE TIME
+   Remains visible after the loading indicator disappears.
+   ===================================================== */
+
+.response-time-display {
+    display: none;
+    padding: 8px 15px;
+    background: #f7f0ff;
+    color: #5b3685;
+    font-size: 13px;
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+}
+
+/* =====================================================
 
    LOADING
 
@@ -463,6 +526,24 @@ body {
 }
 
 
+
+
+
+/* Keep the chatbot usable on smaller screens. */
+@media (max-width: 480px) {
+    .chatbot {
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    .header {
+        font-size: 25px;
+        padding: 16px;
+    }
+}
 
 </style>
 
@@ -543,44 +624,64 @@ body {
 
 
 
-    <div class="input-area">
+<div class="input-area">
+    <input
+        type="text"
+        id="msg"
+        placeholder="Ask anything..."
+        autocomplete="off"
+    >
+
+    <button
+        class="send-btn"
+        id="sendButton"
+        onclick="sendMessage()"
+    >
+        Send
+    </button>
+</div>
+
+<!-- =================================================
+     LOADING STATUS
+     Visible while the chatbot generates a response.
+     ================================================= -->
+
+<div id="loadingStatus" class="loading-status" style="display: none;">
+
+    <!-- Animated spinner -->
+    <div class="spinner"></div>
+
+    <!-- Loading message -->
+    <span id="loadingText">Thinking...</span>
+
+    <!-- Live elapsed time -->
+    <span id="responseTimer">0.0 sec</span>
+
+    <!-- Stop button -->
+    <button
+        class="stop-btn"
+        id="stopButton"
+        onclick="stopResponse()"
+    >
+        Stop
+    </button>
+
+</div> <!-- IMPORTANT: Close loadingStatus here -->
 
 
+<!-- =================================================
+     PERMANENT RESPONSE TIME
+     This must be outside loadingStatus.
+     ================================================= -->
 
-        <input
-
-            type="text"
-
-            id="msg"
-
-            placeholder="Ask anything..."
-
-            autocomplete="off"
-
-        >
-
-
-
-        <button
-
-            class="send-btn"
-
-            onclick="sendMessage()"
-
-        >
-
-            Send
-
-        </button>
-
-
-
-    </div>
-
-
-
-
-
+<div
+    id="responseTimeDisplay"
+    class="response-time-display"
+    style="display: none;"
+>
+    <span id="finalResponseTime">
+        Response time: 0.00 sec
+    </span>
 </div>
 
 
@@ -596,29 +697,111 @@ body {
 
 
 /* =====================================================
-
    GLOBAL VARIABLES
+   ===================================================== */
 
-===================================================== */
-
-
-
+// Existing support-flow state used by the chatbot.
 window.awaitingUsername = false;
-
-
-
 window.selectedIssue = "";
 
-
-
+// WebSocket and streaming-response state.
 let socket = null;
 let currentBubble = null;
 let currentResponse = "";
 let websocketConnected = false;
 const chat = document.getElementById("chat");
 
+// Loading indicator and elapsed-time state.
+let responseStartTime = null;
+let responseInProgress = false;
+let stopRequested = false;
+let responseTimerInterval = null;
 
 
+/* =====================================================
+   START RESPONSE UI
+   Show the spinner, start the timer and disable Send.
+   ===================================================== */
+function startResponseUI() {
+    responseInProgress = true;
+    stopRequested = false;
+    responseStartTime = Date.now();
+
+    const loadingStatus = document.getElementById("loadingStatus");
+    const sendButton = document.getElementById("sendButton");
+    const loadingText = document.getElementById("loadingText");
+    const timerElement = document.getElementById("responseTimer");
+
+    // Hide the previous request's final time while a new request runs.
+    document.getElementById("responseTimeDisplay").style.display = "none";
+
+    // Display the loading area and reset its labels.
+    loadingStatus.style.display = "flex";
+    
+    // Show spinner and Stop button for the new request
+    document.querySelector(".spinner").style.display = "block";
+    document.getElementById("stopButton").style.display = "inline-block";
+    loadingText.textContent = "Thinking...";
+    timerElement.textContent = "0.0 sec";
+
+    // Prevent the user from submitting another request mid-stream.
+    sendButton.disabled = true;
+    sendButton.textContent = "Sending...";
+
+    // Clear any previous timer before starting a fresh interval.
+    clearInterval(responseTimerInterval);
+
+    // Refresh the elapsed time every 100 milliseconds.
+    responseTimerInterval = setInterval(function () {
+
+        if (responseStartTime === null) {
+            return;
+        }
+
+        const elapsed = (Date.now() - responseStartTime) / 1000;
+        timerElement.textContent = elapsed.toFixed(1) + " sec";
+
+    }, 100);
+}
+
+
+/* =====================================================
+   FINISH RESPONSE UI
+   Stops the spinner but keeps the final response time
+   visible after the chatbot finishes.
+   ===================================================== */
+
+function finishResponseUI() {
+
+    // Calculate total elapsed time before clearing the start timestamp.
+    let finalTime = 0;
+
+    if (responseStartTime !== null) {
+        finalTime = (Date.now() - responseStartTime) / 1000;
+    }
+
+    // Stop the live timer.
+    clearInterval(responseTimerInterval);
+    responseTimerInterval = null;
+
+    // Mark the response as no longer active.
+    responseInProgress = false;
+    responseStartTime = null;
+
+    // Hide the temporary loading row.
+    document.getElementById("loadingStatus").style.display = "none";
+
+    // Show the final response time in its own persistent row.
+    document.getElementById("finalResponseTime").textContent =
+        "Response time: " + finalTime.toFixed(2) + " sec";
+
+    document.getElementById("responseTimeDisplay").style.display = "block";
+
+    // Restore the Send button for the next question.
+    const sendButton = document.getElementById("sendButton");
+    sendButton.disabled = false;
+    sendButton.textContent = "Send";
+}
 
 
 /* =====================================================
@@ -650,30 +833,22 @@ function connectWebSocket() {
         );
     };
 
+    /* =====================================================
+       RECEIVE STREAMED RESPONSE
+       The backend sends text chunks followed by STREAM_END.
+       ===================================================== */
     socket.onmessage = function(event) {
 
-        console.log(
-            "========== WEBSOCKET MESSAGE =========="
-        );
-
-        console.log(
-            "Received chunk:",
-            JSON.stringify(event.data)
-        );
-
         const data = event.data;
+        console.log("Received WebSocket data:", JSON.stringify(data));
 
+        // The backend uses this marker to tell the browser the reply is complete.
         if (data === "[[STREAM_END]]") {
 
-            console.log(
-                "========== STREAM FINISHED =========="
-            );
+            console.log("========== STREAM FINISHED ==========");
+            console.log("Final response:", currentResponse);
 
-            console.log(
-                "Final response:",
-                currentResponse
-            );
-
+            // Preserve the existing username-verification flow.
             if (
                 currentResponse.toLowerCase().includes("username") ||
                 currentResponse.toLowerCase().includes("email address")
@@ -681,16 +856,22 @@ function connectWebSocket() {
                 window.awaitingUsername = true;
             }
 
+            // Stop timer, hide spinner and enable Send again.
+            finishResponseUI();
+
+            // Reset only the streaming variables for the next request.
             currentBubble = null;
             currentResponse = "";
             scrollBottom();
             return;
         }
 
+        // Create one bot bubble when the first response chunk arrives.
         if (currentBubble === null) {
             currentBubble = createStreamingMessage();
         }
 
+        // Append each chunk to the same bubble.
         currentResponse += data;
         currentBubble.textContent = currentResponse;
         scrollBottom();
@@ -705,6 +886,11 @@ function connectWebSocket() {
         );
 
         console.error(error);
+
+        // Avoid leaving the UI in a permanent loading state after an error.
+        if (responseInProgress) {
+            finishResponseUI();
+        }
     };
 
     socket.onclose = function(event) {
@@ -718,6 +904,12 @@ function connectWebSocket() {
         console.log("Code:", event.code);
         console.log("Reason:", event.reason);
 
+        // Restore the input controls if the connection closes mid-response.
+        if (responseInProgress) {
+            finishResponseUI();
+        }
+
+        // Reconnect after a short delay.
         setTimeout(function() {
             connectWebSocket();
         }, 1000);
@@ -1613,76 +1805,90 @@ async function sendMessage() {
 
 /* =====================================================
    NORMAL CHAT
-===================================================== */
-
-async function normalChat(
-    message
-) {
+   Sends a message through the existing WebSocket backend.
+   Backend routing to support, RAG or general chat is unchanged.
+   ===================================================== */
+async function normalChat(message) {
 
     try {
 
-        console.log(
-            "========== NORMAL CHAT =========="
-        );
-
-        console.log(
-            "Message:",
-            message
-        );
-
+        console.log("========== NORMAL CHAT ==========");
+        console.log("Message:", message);
         console.log(
             "WebSocket state:",
             socket ? socket.readyState : "NO SOCKET"
         );
 
-        if (
-            !socket ||
-            socket.readyState !== WebSocket.OPEN
-        ) {
+        // Do not send until the WebSocket connection is ready.
+        if (!socket || socket.readyState !== WebSocket.OPEN) {
 
-            console.error(
-                "WebSocket is not connected."
-            );
+            console.error("WebSocket is not connected.");
+            addBot("WebSocket is connecting. Please try again in a moment.");
 
-            addBot(
-                "WebSocket is connecting. Please try again in a moment."
-            );
-
-            if (
-                !socket ||
-                socket.readyState === WebSocket.CLOSED
-            ) {
+            // Attempt to reconnect if the socket is closed.
+            if (!socket || socket.readyState === WebSocket.CLOSED) {
                 connectWebSocket();
             }
 
             return;
         }
 
+        // Guard against duplicate requests while a response is streaming.
+        if (responseInProgress) {
+            console.log("A response is already in progress.");
+            return;
+        }
+
+        // Reset the previous streaming response state.
         currentBubble = null;
         currentResponse = "";
 
-        console.log(
-            "Sending through WebSocket:",
-            message
-        );
+        // Start the spinner and elapsed-time display before sending.
+        startResponseUI();
 
+        console.log("Sending through WebSocket:", message);
+
+        // Send the user's message to ws_server.py.
         socket.send(message);
 
-        console.log(
-            "Message sent!"
-        );
+        console.log("Message sent!");
 
     } catch (error) {
 
-        console.error(
-            "WebSocket chat error:",
-            error
-        );
+        console.error("WebSocket chat error:", error);
 
-        addBot(
-            "Sorry, I couldn't process your message."
-        );
+        // Restore the UI if sending fails.
+        finishResponseUI();
+        addBot("Sorry, I couldn't process your message.");
     }
+}
+
+
+/* =====================================================
+
+   STOP BUTTON
+
+===================================================== */
+
+
+function stopResponse() {
+
+    // Do nothing when no response is currently being displayed.
+    if (!responseInProgress) {
+        return;
+    }
+
+    // This flag is local to the browser in the current implementation.
+    // It does NOT cancel Ollama/LangGraph generation on the server.
+    stopRequested = true;
+
+    // Stop the timer and restore the Send button.
+    finishResponseUI();
+
+    // Inform the user that the browser stopped waiting for this response.
+    addBot("Stopped waiting for the response.");
+
+    console.log("Stop button clicked. Backend generation is not cancelled.");
 }
 
 
@@ -1700,7 +1906,7 @@ document
 
     .addEventListener(
 
-        "keypress",
+        "keydown",
 
         function(event) {
 

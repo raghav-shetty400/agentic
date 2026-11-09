@@ -1,70 +1,178 @@
+```html
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>WebSocket Test</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        input {
+            padding: 10px;
+            width: 250px;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        #response {
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
 
 <body>
 
     <h1>WebSocket Test</h1>
 
-    <input id="message" placeholder="Type message">
+    <input
+        type="text"
+        id="message"
+        placeholder="Type your message"
+    >
 
-    <button onclick="sendMessage()">Send</button>
+    <button id="sendButton" onclick="sendMessage()" disabled>
+        Send
+    </button>
 
-    <h3 id="response">Connecting...</h3>
+    <h3 id="status">Connecting...</h3>
+
+    <div id="response"></div>
 
 
     <script>
 
-        const socket = new WebSocket("ws://localhost:8765");
+        let socket = null;
+        let currentResponse = "";
+
+        const messageInput = document.getElementById("message");
+        const sendButton = document.getElementById("sendButton");
+        const status = document.getElementById("status");
+        const response = document.getElementById("response");
 
 
-        socket.onopen = function() {
+        // Connect to WebSocket server
+        function connectWebSocket() {
 
-            console.log("Connected");
+            socket = new WebSocket("ws://localhost:8765");
 
-            document.getElementById("response").innerText =
-                "Connected to WebSocket server";
+            socket.onopen = function () {
 
-        };
+                console.log("Connected to WebSocket server");
 
+                status.innerText = "Connected";
 
-        socket.onmessage = function(event) {
+                sendButton.disabled = false;
 
-            console.log("Server:", event.data);
-
-            document.getElementById("response").innerText =
-                event.data;
-
-        };
+            };
 
 
-        socket.onerror = function(error) {
+            // Receive messages from server
+            socket.onmessage = function (event) {
 
-            console.log("WebSocket error:", error);
+                const data = event.data;
 
-            document.getElementById("response").innerText =
-                "WebSocket connection error";
+                console.log("Server:", data);
 
-        };
+                // Detect end of streaming response
+                if (data === "[[STREAM_END]]") {
+
+                    console.log("Streaming completed");
+
+                    status.innerText = "Response completed";
+
+                    return;
+                }
+
+                currentResponse += data;
+
+                response.innerText = currentResponse;
+
+            };
 
 
+            socket.onerror = function (error) {
+
+                console.error("WebSocket error:", error);
+
+                status.innerText = "WebSocket connection error";
+
+            };
+
+
+            socket.onclose = function () {
+
+                console.log("WebSocket disconnected");
+
+                status.innerText = "Disconnected";
+
+                sendButton.disabled = true;
+
+            };
+
+        }
+
+
+        // Send message to server
         function sendMessage() {
 
-            const message =
-                document.getElementById("message").value;
+            const message = messageInput.value.trim();
+
+            if (message === "") {
+                return;
+            }
+
+            if (!socket || socket.readyState !== WebSocket.OPEN) {
+
+                status.innerText = "WebSocket is not connected";
+
+                return;
+
+            }
 
             console.log("Sending:", message);
 
+            currentResponse = "";
+
+            response.innerText = "";
+
+            status.innerText = "Waiting for response...";
+
             socket.send(message);
 
+            messageInput.value = "";
+
         }
+
+
+        // Send message when Enter is pressed
+        messageInput.addEventListener("keydown", function (event) {
+
+            if (event.key === "Enter") {
+
+                sendMessage();
+
+            }
+
+        });
+
+
+        // Start WebSocket connection
+        connectWebSocket();
 
     </script>
 
 </body>
 
 </html>
+```

@@ -130,6 +130,7 @@ def router(state):
         "Rollover event issue",
         "rollover event issue",
         "rollover",
+        "why facecover alert isnt wokring"
 
 
         # NEW - customer-specific rollover questions
@@ -292,6 +293,7 @@ def router(state):
         "device installation",
         "device issue",
         "device problem",
+        "ai vision camera"
 
         # -------------------------------------------------
         # SENSOR

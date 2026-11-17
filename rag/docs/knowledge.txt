@@ -9,6 +9,7 @@ Product index: https://www.support.hubbleconnected.com/
 Q: What is Hubble AI Vision?
 A: Hubble Connected support describes AI Vision as a monitoring camera with 2K UHD image quality, 2.4 GHz and 5 GHz Wi-Fi support, and digital 6X zoom. Listed smart features include Rollover Detection, True-Cry Detection, sleep analytics, and Baby Eye Wellness reporting. Features depend on product model, app configuration, and plan. Verify model-specific details in the official guide.
 
+
 Q: What features may be available on Hubble AI products?
 A: Official information lists features such as Rollover Detection, True-Cry Detection, sleep analytics, Baby Eye Wellness reporting, two-way communication, sound and motion alerts, night light and soothing sounds, motion-triggered video, video history, and routine or growth tracking. Not every feature is available on every device.
 
